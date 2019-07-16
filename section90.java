@@ -1,5 +1,22 @@
 class Solution {
 
+   // Question 893
+   /**
+    * IDEA :
+    * Since every even position can be swapped, we can divide the whole string
+    * into two parts, and counting the occurance times of each char. Then
+    * compare the differences of two parts.
+    */
+   public int numSpecialEquivGroups(String[] A) {
+      Set<String> rtn = new HashSet();
+      for (String str: A) {
+          int[] count = new int[52];
+          for (int i = 0; i < str.length(); ++i)
+              count[str.charAt(i) - 'a' + 26 * (i % 2)]++;
+          rtn.add(Arrays.toString(count));
+      }
+      return rtn.size();
+   }
 
    // Question 895
    /**
