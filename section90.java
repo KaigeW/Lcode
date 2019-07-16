@@ -55,6 +55,73 @@ class Solution {
       return inc || dec;
     }
 
+    // Question 897
+    /**
+     * IDEA 1:
+     * Since we have a inordered BST, we need to get back the correct order
+     * First, add the sorted node value into an ArrayList in a correct order,
+     * Loop thru the arrayList and create a tree using the required order.
+     */
+    public TreeNode increasingBST(TreeNode root) {
+        List<Integer> vals = new ArrayList();
+        inorder(root, vals);
+        TreeNode ans = new TreeNode(0);
+        TreeNode cur = ans;
+        for( int val: vals ){
+            cur.right = new TreeNode(val);
+            cur = cur.right;
+        }
+        return ans.right;
+    }
+
+    public void inorder(TreeNode node, List<Integer> vals){
+        if( node == null ) return;
+        inorder(node.left, vals);
+        vals.add(node.val);
+        inorder(node.right, vals);
+    }
+
+    /**
+     * IDEA 2:
+     * Base on the IDEA 1, instead of having a list that saves all of the values
+     * first. During the iteration, we can definitely change the property of
+     * nodes itself to make it a right most tree.
+     */
+     TreeNode cur;
+     public TreeNode increasingBST(TreeNode root) {
+         TreeNode ans = new TreeNode(0);
+         cur = ans;
+         inorder(root);
+         return ans.right;
+     }
+
+     public void inorder(TreeNode node ){
+         if( node == null ) return;
+         inorder(node.left);
+         node.left = null;
+         cur.right = node;
+         cur = node;
+         inorder(node.right);
+     }
+
+
+     /**
+     * IDEA 3:
+     * ATTENTION
+     */
+     public TreeNode increasingBST(TreeNode root) {
+         return inorder(root, null);
+     }
+
+     public TreeNode inorder(TreeNode dad, TreeNode son){
+         if( dad == null ) return son;
+         TreeNode rtn = inorder(dad.left, dad);
+         dad.left = null;
+         dad.right = inorder(dad.right, son);
+         return rtn;
+     }
+
+
     // Question 898
     /**
      * IDEA 1: 50 / 83 test cases passed. Time exceeds
