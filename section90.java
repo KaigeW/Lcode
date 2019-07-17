@@ -1,5 +1,35 @@
 class Solution {
 
+   // Question 891
+   /**
+    * IDEA :
+    * Pattern: In a sorted array, [1,2] will have one 1 width, [1,2,3] will have
+    * 2 2 widths, [1,2,3,4] will have 4 3 widths....
+    * Use an array to store all the possible powers of 2 numbers. 
+    */
+   public int sumSubseqWidths(int[] A) {
+       int MOD = 1000000007;
+       int N = A.length;
+       Arrays.sort(A);
+       long[] pow2 = new long[N];
+       pow2[0] = 1;
+       for( int i = 1; i < N; ++i)
+           pow2[i] = pow2[i-1] * 2 % MOD;
+
+       long ans = 0;
+       for(int i = 0; i < N; ++i )
+           ans = (ans + (pow2[i] - pow2[N-1-i]) * A[i]) % MOD;
+
+       return (int) ans;
+   }
+
+   // Question 892
+   /**
+    * IDEA :
+    *
+    */
+
+
    // Question 893
    /**
     * IDEA :
@@ -18,6 +48,43 @@ class Solution {
       return rtn.size();
    }
 
+   // Question 894
+   /**
+    * IDEA 1:
+    Counter case: Need to realize that N has to be an odd number
+        and BSTree can be composed of other BSTrees...
+    * Dynamic programming idea, I can use the solution I've
+    * computed before. Used a HashMap memo to store all of the
+    * computed answer. For each N that hasn't been stored into the
+    * memo before, I can built using the stored result. e.g. 5 can
+    * be divided to 0 and 4, 2 and 2, 4 and 0.
+    */
+   // Global variable
+   Map<Integer, List<TreeNode>> memo = new HashMap();
+   public List<TreeNode> allPossibleFBT(int N){
+       if(!memo.containsKey(N)){
+           List<TreeNode> ans = new LinkedList();
+           if( N == 1){
+               ans.add(new TreeNode(0));
+           }
+           else if( N % 2 == 1){
+               for( int x = 0; x < N; ++x){
+                   int y = N - 1 - x;
+                   for( TreeNode left: allPossibleFBT(x) ){
+                       for(TreeNode right: allPossibleFBT(y)){
+                           TreeNode bns = new TreeNode(0);
+                           bns.left = left;
+                           bns.right = right;
+                           ans.add(bns);
+                       }
+                   }
+               }
+           }
+           memo.put(N, ans);
+       }
+       return memo.get(N);
+   }
+
    // Question 895
    /**
     * IDEA :
@@ -30,7 +97,6 @@ class Solution {
     * Everytime we pop, we need to pop a number from the maxfreq stack, update
     * the freq map, and also check if maxfreq stack is empty, if so, --maxfreq
     */
-
    Map<Integer, Integer> freq;
    Map<Integer, Stack<Integer>> group;
    int maxfreq;
