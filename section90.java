@@ -2,10 +2,37 @@ class Solution {
 
    // Question 891
    /**
-    * IDEA :
+    * IDEA 1: 59/64
+    * 论找到通用解的重要性
     * Pattern: In a sorted array, [1,2] will have one 1 width, [1,2,3] will have
     * 2 2 widths, [1,2,3,4] will have 4 3 widths....
-    * Use an array to store all the possible powers of 2 numbers. 
+    * Use an array to store all the possible powers of 2 numbers. Then add the
+    * difference * 2 ^ (index difference - 1) up, which is our answer
+    */
+   public int sumSubseqWidths(int[] A) {
+       // Time:
+
+       // Space:
+       int MOD = 1000000007;
+       int N = A.length;
+       Arrays.sort(A);
+       long[] pow2 = new long[N];
+       pow2[0] = 1;
+       for( int i = 1; i < N; ++i)
+           pow2[i] = pow2[i-1] * 2 % MOD;
+
+       long ans = 0;
+       for(int i = 0; i < N-1; ++i ){
+           for( int j = i+1; j < N; ++j ){
+               ans = (ans + (A[j] - A[i]) * pow2[j-i-1]) % MOD;
+           }
+       }
+       return (int) ans;
+   }
+
+   /**
+    * IDEA 2:
+    * algebra
     */
    public int sumSubseqWidths(int[] A) {
        int MOD = 1000000007;

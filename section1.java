@@ -85,7 +85,7 @@ class Solution {
         return rtn.next;
     }
 
-    // Question 2
+    // Question 3
     /**
      * IDEA 1:
      Counter case: If 1-char or empty string passed in, need to make sure the
@@ -171,4 +171,97 @@ class Solution {
         }
         return ans;
      }
+
+     // Question 5
+     /**
+      * IDEA:
+      * Since we're not sure if the center of palindrome is a single char or
+      * repeat char, we can just go thru the string twice with two different
+      * center setting.
+      * Start from the center and expand, until non-identical char found
+      */
+      public String longestPalindrome(String s) {
+         // Time: O(2N^2)
+         // Worst case: need to check all of the char in string. Repeat 2n times
+         // Space: O(n) n is size of the longest Palindrome
+         // Only space for palindrome is created
+         if( s == null || s.length() < 1 ) return "";
+         int start = 0, end = 0;
+         for( int i = 0; i < s.length(); i++ ){
+              int len1 = expandAroundCenter(s, i, i);
+              int len2 = expandAroundCenter(s, i, i+1);
+              int len = Math.max(len1, len2);
+              if( len > end - start ){
+                 start = i - (len - 1) / 2;
+                 end = i + len / 2;
+              }
+         }
+         return s.substring(start, end + 1);
+      }
+
+      private int expandAroundCenter(String s, int left, int right){
+         int L = left, R = right;
+         while( L >= 0 && R < s.length() && s.charAt(L) == s.charAt(R)){
+              L--;
+              R++;
+         }
+         return R - L - 1;
+      }
+
+
+      // Question 6
+      /**
+       * IDEA :
+       * Pattern found,
+       * First and last Row: Increase by (numRows - 1) * 2
+       * [(numRows - 2) * 2, 2],[(numRows - 3) * 2, 4] ... [2,(numRows - 2) * 2]
+       * All rows starts from the 0,1,2 ... N
+       */
+      public String convert(String s, int numRows) {
+         // Time: O(N) N: Length of string
+         // Used each char in string exactly once
+         // Space: O(N)
+         // Have a temp char[] to store string
+         if( numRows == 1) return s;
+         char[] rtn = new char[s.length()];
+         int i = 0;
+         int rI = 0;
+         int left = (numRows - 1) * 2;
+         int right = 0;
+         while( i < numRows ){
+             int counter = i;
+             if( i == 0 || i == (numRows - 1) ){
+                 while( counter < s.length() ){
+                     rtn[rI] = s.charAt(counter);
+                     rI++;
+                     counter += (numRows - 1) * 2;
+                 }
+             }
+             else{
+                 left -= 2;
+                 right += 2;
+                 while( counter < s.length() ) {
+                     rtn[rI] = s.charAt(counter);
+                     rI++;
+                     counter += left;
+                     if( counter >= s.length() )
+                         break;
+                     rtn[rI] = s.charAt(counter);
+                     rI++;
+                     counter += right;
+                 }
+             }
+             ++i;
+         }
+         return new String(rtn);
+     }
+
+     // Question 7
+     /**
+      * IDEA 1:
+      * 
+      *
+      *
+      */
+
 }
