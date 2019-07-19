@@ -258,10 +258,39 @@ class Solution {
 
      // Question 7
      /**
-      * IDEA 1:
-      * 
-      *
-      *
+      * IDEA :
+      * Keep on taking remainder, keep on adding value + cur * 10.
+      * Need to notice that, [-2^31, 2^31-1]
+      * Therefore, Need to notice that
       */
+      public int reverse(int x) {
+          // Time: O(log(x))
+          // It take the length x time (or ..th digits)
+          // Space: O(1)
+          // It would take one integer space overall
+          boolean positive = true;
+          if( x < 0 ){
+              positive = false;
+              if( x < -Integer.MAX_VALUE )
+                  return 0;
+              x = -x;
+          }
+          if( x / 1 < 10 ){
+              if( positive )
+                  return x;
+              else
+                  return -x;
+          }
+          int sum = 0;
+          while( x > 0 ){
+              if ((positive && sum > Integer.MAX_VALUE / 10) ||( !positive )&&(-1*sum < -Integer.MAX_VALUE / 10))
+                  return 0;
+              sum = sum * 10 + x%10;
+              x /= 10;
+          }
+          if(positive)
+              return sum;
+          return -sum;
+      }
 
 }
