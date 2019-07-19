@@ -10,9 +10,10 @@ class Solution {
     * difference * 2 ^ (index difference - 1) up, which is our answer
     */
    public int sumSubseqWidths(int[] A) {
-       // Time:
-
-       // Space:
+       // Time: O(N^2)
+       // n+n-1+...+3+2+1 results in a n^2 time
+       // Space: O(N)
+       // one N space for powers of 2
        int MOD = 1000000007;
        int N = A.length;
        Arrays.sort(A);
@@ -35,6 +36,10 @@ class Solution {
     * algebra
     */
    public int sumSubseqWidths(int[] A) {
+       // Time: O(N^2)
+       // n+n-1+...+3+2+1 results in a n^2 time
+       // Space: O(N)
+       // one N space for powers of 2
        int MOD = 1000000007;
        int N = A.length;
        Arrays.sort(A);
@@ -65,6 +70,11 @@ class Solution {
     * compare the differences of two parts.
     */
    public int numSpecialEquivGroups(String[] A) {
+      // Time: O(MxN)
+      // M is the size of String array, N is the worst length of the String
+      // Space: O(52M)
+      // If all of the String are difference, we'll be needing at worst M 52
+      // array
       Set<String> rtn = new HashSet();
       for (String str: A) {
           int[] count = new int[52];
@@ -89,6 +99,12 @@ class Solution {
    // Global variable
    Map<Integer, List<TreeNode>> memo = new HashMap();
    public List<TreeNode> allPossibleFBT(int N){
+       // Time: O(2^N)
+       // Need to consider each power of 2 case to be able to complete the whole
+       //     graph
+       // Space: O(2^N)
+       // Again, need space to store each power of 2 situations.
+
        if(!memo.containsKey(N)){
            List<TreeNode> ans = new LinkedList();
            if( N == 1){
@@ -124,6 +140,11 @@ class Solution {
     * Everytime we pop, we need to pop a number from the maxfreq stack, update
     * the freq map, and also check if maxfreq stack is empty, if so, --maxfreq
     */
+    // Time: O(1)
+    // Each operation takes constant time
+    // Space: O(N)
+    // Space, we have two structures, one with size of frequency, one with size
+    //    of all the different numbers
    Map<Integer, Integer> freq;
    Map<Integer, Stack<Integer>> group;
    int maxfreq;
