@@ -293,4 +293,34 @@ class Solution {
           return -sum;
       }
 
+      // Question 8
+      /**
+       * IDEA :
+       *
+       */
+
+      public int myAtoi(String str) {
+          int len = str.length();
+          int index = 0;
+          int rtn = 0;
+          int sign = 0;
+          boolean positive = true;
+          while( index < len ) {
+              char temp = str.charAt(index);
+              if((temp == '-') && sign == 0)){
+                  positive = false;
+                  sign++;
+              }
+              else if((temp <= '9')&&(temp >= '0')){
+                  if( sign == 0 )
+                      sign++;
+                  rtn = rtn * 10 + temp - '0';
+              }
+              else if( temp != ' ')
+                  break;
+              ++index;
+          }
+          return rtn;
+      }
+
 }
