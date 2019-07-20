@@ -293,4 +293,82 @@ class Solution {
           return -sum;
       }
 
+      // Question 8
+      /**
+       * IDEA 1:
+       * Loop thru each char inside str. If found -/+ or number, stop till it
+       * ends
+       * No need to compare the each char everytime.
+       */
+       public int myAtoi(String str) {
+          // Time: O(N)
+          // Examine each char once in the worst case
+          // Space: O(1)
+          // Use only several ints and bool for indicator
+          int len = str.length();
+          int index = 0;
+          long rtn = 0;
+          int sign = 0;
+          boolean positive = true;
+          boolean num = false;
+          while( index < len ) {
+              char temp = str.charAt(index);
+              if(((temp == '+') || (temp == '-')) && sign == 0){
+                  if( !num )
+                      num = true;
+                  if( temp == '-')
+                      positive = false;
+                  sign++;
+              }
+              else if((temp <= '9')&&(temp >= '0')){
+                  if( sign == 0 )
+                      sign++;
+                  if( !num )
+                      num = true;
+                  if( positive && (rtn * 10 + temp - '0'> Integer.MAX_VALUE)){
+                      rtn = Integer.MAX_VALUE;
+                      break;
+                  }
+                  else if( !positive && (rtn * 10 + temp - '0' - 1> Integer.MAX_VALUE)){
+                      rtn = -Integer.MIN_VALUE;
+                      break;
+                  }
+                  rtn = rtn * 10 + temp - '0';
+              }
+              else if( temp != ' ' || num)
+                  break;
+              ++index;
+          }
+          if( positive )
+              return (int)rtn;
+          return (int)-rtn;
+       }
+       /**
+        * IDEA 2:
+        * Several Loops version need to be complete.
+        *
+        */
+
+       // Question 9
+       /**
+        * IDEA 1:
+        * Having two ints indicators
+        * Compare the front and end digits return false if found different
+        * digits.
+        */
+        public boolean isPalindrome(int x){
+            if( x < 0 )
+                return false;
+            int sta = 1;
+            int end = 1;
+            while( x / sta >= 10 ) sta *= 10;
+            while( sta > end ){
+                if((x / sta - x / end)%10 != 0)
+                    return false;
+                sta /= 10;
+                end *= 10;
+            }
+            return true;
+        }
+
 }
