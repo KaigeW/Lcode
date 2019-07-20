@@ -295,7 +295,6 @@ class Solution {
 
       // Question 8
       /**
-<<<<<<< HEAD
        * IDEA 1:
        * Loop thru each char inside str. If found -/+ or number, stop till it
        * ends
@@ -319,28 +318,11 @@ class Solution {
                       num = true;
                   if( temp == '-')
                       positive = false;
-=======
-       * IDEA :
-       *
-       */
-
-      public int myAtoi(String str) {
-          int len = str.length();
-          int index = 0;
-          int rtn = 0;
-          int sign = 0;
-          boolean positive = true;
-          while( index < len ) {
-              char temp = str.charAt(index);
-              if((temp == '-') && sign == 0)){
-                  positive = false;
->>>>>>> 97c586b4f399ef5bb5b0a1e1e2797bab1c278a5c
                   sign++;
               }
               else if((temp <= '9')&&(temp >= '0')){
                   if( sign == 0 )
                       sign++;
-<<<<<<< HEAD
                   if( !num )
                       num = true;
                   if( positive && (rtn * 10 + temp - '0'> Integer.MAX_VALUE)){
@@ -388,15 +370,5 @@ class Solution {
             }
             return true;
         }
-=======
-                  rtn = rtn * 10 + temp - '0';
-              }
-              else if( temp != ' ')
-                  break;
-              ++index;
-          }
-          return rtn;
-      }
->>>>>>> 97c586b4f399ef5bb5b0a1e1e2797bab1c278a5c
 
 }
