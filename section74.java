@@ -114,5 +114,72 @@ class Solution {
 
          return Integer.parseInt(String.valueOf(S));
      }
+     // Question 739
+     /**
+      * IDEA 1:
+      *
+      */
+     public int[] dailyTemperatures(int[] T) {
+         int[] rtn = new int[T.length];
+         for( int i = 0; i < T.length - 1; ++i ){
+             int sum = 0;
+             for( int j = i + 1; j < T.length; ++j ){
+                 if( T[i] >= T[j] ){
+                     sum++;
+                 }
+                 else{
+                     sum++;
+                     break;
+                 }
+                 if( j == T.length - 1)
+                     sum = 0;
+             }
+             rtn[i] = sum;
+         }
+         rtn[T.length-1] = 0;
+         return rtn;
+     }
+
+     /**
+      * IDEA 2:
+      * COMPREHENSIV
+      */
+     public int[] dailyTemperatures( int[] T ){
+         int[] ans = new int [T.length];
+         Stack<Integer> stack = new Stack();
+         for( int i = T.length - 1; i >= 0; --i ){
+             while( !stack.isEmpty() && T[i] >= T[stack.peek()]) stack.pop()；
+             ans[i] = stack.isEmpty()?0:stack.peek()-i;
+             stack.push(i);
+         }
+         return ans;
+     }
+
+     // Question 740
+     /**
+      * IDEA :
+      * Using Dynamic programming,
+      */
+     public int deleteAndEarn( int[] nums ) {
+         int[] count = new int[10001];
+         for(int x: nums) count[x]++;
+         int avoid = 0, using = 0, prev = -1;
+
+         for( int k = 0; k <= 10000; ++k ){
+             if(count[k] > 0) {
+                 int m = Math.max(avoid, using);
+                 if( k - 1 != prev ){
+                     using = k * count[k] + m;
+                     avoid = m;
+                 }
+                 else{
+                     using = k * count[k] + avoid;
+                     avoid = m;
+                 }
+                 prev = k;
+             }
+         }
+         return Math.max(avoid, using);
+     }
 
 }
