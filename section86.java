@@ -59,4 +59,37 @@ class Solution {
          for (int j : richer2.get(i)) if (quiet[res[i]] > quiet[dfs(j, quiet)]) res[i] = res[j];
          return res[i];
      }
+
+
+    // Question 852
+    /**
+     * IDEA :
+     * Linear check
+     */
+    public int peakIndexInMountainArray(int[] A) {
+        int lastIndex = 0;
+        for( int i = 0; i < A.length; ++i ){
+            if( A[lastIndex] > A[i] )
+                break;
+            if( A[lastIndex] != A[i] )
+                lastIndex = i;
+        }
+        return lastIndex;
+    }
+
+    /**
+     * IDEA :
+     * Binary Search
+     */
+    public int peakIndexInMountainArray(int[] A) {
+        int lo = 0, hi = A.length - 1;
+        while (lo < hi) {
+            int mi = lo + (hi - lo) / 2;
+            if (A[mi] < A[mi + 1])
+                lo = mi + 1;
+            else
+                hi = mi;
+        }
+        return lo;
+    }
 }
