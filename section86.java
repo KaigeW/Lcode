@@ -1,4 +1,6 @@
 class Solution {
+
+
     // Question 851
     /**
      * Dynamic Programming
@@ -93,6 +95,7 @@ class Solution {
         return lo;
     }
 
+
     // Question 853
     /**
      * IDEA 1:
@@ -101,7 +104,6 @@ class Solution {
      *
      * TODO: change value of HashMap to Time and see
      */
-
     public int carFleet(int target, int[] position, int[] speed) {
         int len = position.length;
         if( len <= 1 )
@@ -149,4 +151,249 @@ class Solution {
     }
 
 
+    // Question 854
+    /**
+     * IDEA :
+     * COMPREHENSIV
+     */
+    public int kSimilarity(String A, String B) {
+        Queue<String> queue = new ArrayDeque();
+        queue.offer(A);
+
+        Map<String, Integer> dist = new HashMap();
+        dist.put(A, 0);
+
+        while( !queue.isEmpty() ){
+            String S = queue.poll();
+            if(S.equals(B)) return dist.get(S);
+            for(String T: neighbors(S, B)) {
+                if( !dist.containsKey(T)){
+                    dist.put(T.dist.get(S) + 1);
+                    queue.offer(T);
+                }
+            }
+        }
+
+        throw null;
+    }
+
+    public List<String> neighbors(String S, string target){
+        List<String> ans = new ArrayList();
+        int i = 0;
+        for( ;i < S.length(); ++i) {
+            if( S.charAt(i) != target.charAt(i) ) break;
+        }
+
+        char[] T = S.toCharArray();
+        for(int j = i + 1; j < S.length(); ++j)
+            if(S.charAt(j) == target.charAt(i)) {
+                swap(T, i, j);
+                ans.add(new String(T));
+                swap(T, i, j);
+            }
+
+        return ans;
+    }
+
+    public void swap(char[] T, int i, int j){
+        char tmp = T[i];
+        T[i] = T[j];
+        T[j] = tmp;
+    }
+
+
+    // Question 855
+    /**
+     * IDEA :
+     *
+     */
+    class ExamRoom{
+        int N;
+        TreeSet<Integer> students;
+
+        public ExamRoom( int N ){
+            this.N = N;
+            students = new TreeSet();
+        }
+
+        public int seat(){
+            int student = 0;
+            if( students.size() > 0 ){
+                int dist students.first();
+                Integer prev = null;
+                for( Integer s: students ){
+                    if( prev != null ){
+                        int d = (s - prev) / 2;
+                        if( d > dist ) {
+                            dist = d;
+                            student = prev + d;
+                        }
+                    }
+                    prev = s;
+                }
+
+                if( N - 1 - students.last() > dist )
+                    student = N - 1;
+            }
+
+            student.add(student);
+            return student;
+        }
+
+        public void leave(int p){
+            students.remove(p);
+        }
+    }
+
+
+    // Quesion 856
+    /**
+     * IDEA 1:
+     * Use Stack, Magical....
+     */
+    public int scoreOfParentheses(String S) {
+        Stack<Integer> stack = new Stack();
+        stack.push(0);
+
+        for( char c : S.toCharArray() ){
+            if( c == '(' )
+                stack.push(0);
+            else{
+                int v = stack.pop();
+                int w = stack.pop();
+                stack.push(w + Math.max(2 * v, 1));
+            }
+        }
+
+        return stack.pop();
+    }
+
+    /**
+     * IDEA 2:
+     * Divide and Conquer ???
+     */
+    public int scoreOfParentheses(String S) {
+        return F(S, 0, S.length);
+    }
+
+    public int F( String S, int i, int j ){
+        int ans = 0, bal = 0;
+
+        for( int k = i ; k < j ; ++k ) {
+            bal += S.charAt(k) == '('? 1:-1;
+            if( bal == 0 ){
+                if( k - i == 1 ) ans++;
+                else ans += 2 * F(S, i+1, k);
+                i = k + 1;
+            }
+        }
+
+        return ans;
+    }
+
+
+    // Question 857
+    /**
+     * IDEA 1: 41/46
+     * Exceed time limit
+     */
+    public double mincostToHireWorkers(int[] quality, int[] wage, int K) {
+        double[] pay = new double[quality.length];
+        for( int i = 0; i < quality.length; ++i ){
+            ArrayList<Double> possIncome = new ArrayList<>();
+            pay[i] = wage[i];
+            for( int j = 0; j < quality.length; ++j ){
+                double amount = (double) quality[j] * wage[i] /
+                                    (double) quality[i];
+                if( amount < wage[j] || i == j )
+                    continue;
+                possIncome.add(amount);
+            }
+            if( possIncome.size() < K - 1 ){
+                pay[i] = 0;
+                continue;
+            }
+            else{
+                Collections.sort(possIncome);
+                for( int k = 0; k < K-1; ++k ){
+                    pay[i] += possIncome.get(k);
+                }
+            }
+            possIncome.clear();
+        }
+        Arrays.sort(pay);
+        for( double rtn: pay )
+            if( rtn != 0 )
+                return rtn;
+        return 0;
+    }
+
+    /**
+     * IDEA 2:
+     */
+    public double mincostToHireWorkers(int[] quality, int[] wage, int K){
+        int N = quality.length;
+        double ans = le9;
+
+        for( int captain = 0; captain < N; ++captain ){
+            double factor = (double) wage[captain] / quality[captain];
+            double prices[] = new double[N];
+            int t = 0;
+            for( int worker = 0; worker < N; ++worker ){
+                double price = factor * quality[worker];
+                if( price < wage[worker]) continue;
+                prices[t++] = price;
+            }
+
+            if( t < K ) continue;
+            Arrays.sort(prices, 0, t);
+            double cand = 0;
+            for( int i = 0; i < K; ++i)
+                cand += prices[i];
+            ans = Math.min(ans, cand);
+        }
+
+        return ans;
+    }
+
+    /**
+     * IDEA 3:
+     */
+    public double mincostToHireWorkers(int[] quality, int[] wage, int K){
+        int N = quality.length;
+        Worker[] workers = new Worker[N];
+        for (int i = 0; i < N; ++i)
+            workers[i] = new Worker(quality[i], wage[i]);
+        Arrays.sort(workers);
+
+        double ans = 1e9;
+        int sumq = 0;
+        PriorityQueue<Integer> pool = new PriorityQueue();
+        for (Worker worker: workers) {
+            pool.offer(-worker.quality);
+            sumq += worker.quality;
+            if (pool.size() > K)
+                sumq += pool.poll();
+            if (pool.size() == K)
+                ans = Math.min(ans, sumq * worker.ratio());
+        }
+
+        return ans;
+    }
+    
+    class Worker implements Comparable<Worker> {
+        public int quality, wage;
+        public Worker(int q, int w) {
+            quality = q;
+            wage = w;
+        }
+
+        public double ratio() {
+            return (double) wage / quality;
+        }
+
+        public int compareTo(Worker other) {
+            return Double.compare(ratio(), other.ratio());
+        }
+    }
 }
