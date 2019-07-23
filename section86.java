@@ -92,4 +92,61 @@ class Solution {
         }
         return lo;
     }
+
+    // Question 853
+    /**
+     * IDEA 1:
+     * Use HashMap to store the position-speed pair. Sort the position array and
+     * start counting fleet. Rules are shown below
+     *
+     * TODO: change value of HashMap to Time and see
+     */
+
+    public int carFleet(int target, int[] position, int[] speed) {
+        int len = position.length;
+        if( len <= 1 )
+            return len;
+        Map<Integer, Integer> cars = new HashMap();
+        for( int i = 0; i < len; ++i )
+            cars.put(position[i], speed[i]);
+        Arrays.sort(position);
+        int rtn = 1;
+        double lastTime = ((double)target-position[len-1]) /
+                            cars.get(position[len-1]);
+        for( int i = len-2; i >= 0; --i ){
+            double curTime = ((double)target-position[i]) / cars.get(position[i]);
+            // If it takes longer time than the last car, a fleet shows up(last)
+            if( curTime > lastTime ){
+                lastTime = curTime;
+                ++rtn;
+            }
+            // If it takes shorter or equal time than the last car
+            // no new fleet generate
+        }
+        return rtn;
+    }
+
+    /**
+     * IDEA 2:
+     * Instead of using HashMap, using TreeMap will help us sorting the values
+     * in first place. Instead of storing the speed info as the value, we can
+     * store the TimeToDesti, in this case, we can use the T result directly to
+     * compute the fleet number
+     *
+     * Somehow the time it takes can be longer since we're dealing with TreeMap
+     */
+    public int carFleet(int target, int[] pos, int[] speed) {
+        TreeMap<Integer, Double> m = new TreeMap<>();
+        for (int i = 0; i < pos.length; ++i) m.put(-pos[i], (double)(target - pos[i]) / speed[i]);
+        int res = 0; double cur = 0;
+        for (double time : m.values()) {
+            if (time > cur) {
+                cur = time;
+                res++;
+            }
+        }
+        return res;
+    }
+
+
 }
