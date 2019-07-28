@@ -58,7 +58,8 @@ class Solution {
      int dfs(int i, int[] quiet) {
          if (res[i] >= 0) return res[i];
          res[i] = i;
-         for (int j : richer2.get(i)) if (quiet[res[i]] > quiet[dfs(j, quiet)]) res[i] = res[j];
+         for (int j : richer2.get(i)) if (quiet[res[i]] > quiet[dfs(j, quiet)])
+         res[i] = res[j];
          return res[i];
      }
 
@@ -380,7 +381,7 @@ class Solution {
 
         return ans;
     }
-    
+
     class Worker implements Comparable<Worker> {
         public int quality, wage;
         public Worker(int q, int w) {
