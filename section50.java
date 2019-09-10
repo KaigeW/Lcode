@@ -101,5 +101,67 @@ class Solution {
         inorder(root.right);
     }
 
-    
+
+
+    // Question 502
+    /**
+     * IDEA: 30/31 passed.
+     * See the embedded comment
+     */
+    public int findMaximizedCapital(int k, int W, int[] Profits, int[] Capital) {
+        // int a loop of length k
+        for( int i = 0; i < k; ++i ){
+            ArrayList<Integer> poss = new ArrayList<>();
+            // have an arrayList to store the possible index
+            for( int j = 0; j < Profits.length; ++j ){
+                if( Capital[j] <= W )
+                    poss.add(j);
+            }
+            // if size 0 break the loop
+            if( poss.size() == 0 )
+                return W;
+            // find the qualitied index that returns the max Capital
+            int max = 0;
+            int maxIndex = -1;
+            for( int j = 0; j < poss.size(); ++j) {
+                if( Profits[poss.get(j)] > max ){
+                    max = Profits[poss.get(j)];
+                    maxIndex = poss.get(j);
+                }
+            }
+            // if max capital is 0, break the loop
+            if(max == 0)
+                return W;
+            // add the capital to the existed W
+            W += max;
+            // make its profits to 0
+            Profits[maxIndex] = 0;
+        }
+        return W;
+    }
+
+    /**
+     * IDEA 2:
+     * STUDY: priority QUEUE
+    **/
+    public int findMaximizedCapital(int k, int W, int[] Profits, int[] Capital) {
+        PriorityQueue<int[]> pqCap = new PriorityQueue<>((a, b) -> (a[0] - b[0]));
+        PriorityQueue<int[]> pqPro = new PriorityQueue<>((a, b) -> (b[1] - a[1]));
+
+        for (int i = 0; i < Profits.length; i++) {
+            pqCap.add(new int[] {Capital[i], Profits[i]});
+        }
+
+        for (int i = 0; i < k; i++) {
+            while (!pqCap.isEmpty() && pqCap.peek()[0] <= W) {
+                pqPro.add(pqCap.poll());
+            }
+
+            if (pqPro.isEmpty()) break;
+
+            W += pqPro.poll()[1];
+        }
+
+        return W;
+    }
 }
