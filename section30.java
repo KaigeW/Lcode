@@ -257,4 +257,152 @@ class Solution {
         String str = String.valueOf(sum);
         return num.startsWith(str, start) && isValid(b, sum, start + str.length(), num);
     }
+
+    // Question 307
+    /**
+     *  IDEA 1:
+     *  Using sum array, every time updates, updates the target sum array
+     *    Simple ones are good, but will die when manipulations are a lot.
+     **/
+     static class NumArray {
+
+         private int[] sumNums;
+         private int[] nums;
+
+         public NumArray(int[] nums) {
+             this.sumNums = new int[nums.length + 1];
+             this.nums = nums;
+             int sum = 0;
+             for( int i = 1; i < nums.length + 1; ++i ) {
+                 sum += nums[i - 1];
+                 this.sumNums[i] = sum;
+             }
+         }
+
+         public void update(int index, int val) {
+             int adjust = val - nums[index];
+             nums[index] = val;
+             for( int i = index + 1; i < sumNums.length; ++i )
+                 sumNums[i] += adjust;
+         }
+
+         public int sumRange(int left, int right) {
+             return sumNums[right+1] - sumNums[left];
+         }
+     }
+
+    /**
+     *  IDEA 2:
+     *  Using segment tree
+     **/
+     static class NumArray {
+         int numLength;
+         private int[] tree;
+
+         public NumArray( int[] nums ) {
+             if( nums != null && nums.length != 0 ){
+                 this.numLength = nums.length;
+                 this.tree = new int[2 * numLength];
+                 for( int i = 0; i < numLength; ++i )
+                     this.tree[i + numLength] = nums[i];
+
+                 for( int i = numLength - 1; i > 0; i-- )
+                     this.tree[i] = this.tree[i*2] + this.tree[i*2+1];
+             }
+         }
+
+         public void update( int index, int val ) {
+             int updateNode = index + numLength;
+             if( this.tree[updateNode] != val ) {
+                 int diff = val - this.tree[updateNode];
+                 this.tree[updateNode] = val;
+                 while( updateNode / 2 > 0 ) {
+                     updateNode /= 2 ;
+                     this.tree[updateNode] += diff;
+                 }
+             }
+         }
+
+         public int sumRange( int left, int right ) {
+             int leftI = left + this.numLength;
+             int rightI = right + this.numLength;
+             int sum = 0;
+
+             while( leftI <= rightI ) {
+                 if( (leftI & 1) == 1 ) {
+                     sum += this.tree[leftI];
+                     leftI++;
+                 }
+                 if( (rightI & 1) == 0 ) {
+                     sum += this.tree[rightI];
+                     rightI--;
+                 }
+
+                 leftI /= 2;
+                 rightI /= 2;
+             }
+             return sum;
+         }
+     }
+
+     static class NumArray {
+         private int N;
+         private int[] tree;
+
+         public NumArray(int[] nums) {
+             if(nums != null && nums.length != 0){
+                  this.N = nums.length;
+                  this.tree = new int[2*N];
+                  int i;
+
+                  for(i = 0; i < N; i++){
+                      this.tree[N + i] = nums[i];
+                  }
+
+                  for(i = N - 1; i >= 0; i--){
+                      this.tree[i] = this.tree[i<<1] + this.tree[(i<<1) + 1];
+                  }
+             }
+         }
+
+         public void update(int index, int val) {
+             int treeIndex = this.N + index;
+             if(this.tree[treeIndex] != val){ // mark this important step - update only if needed
+                 this.tree[treeIndex] = val;
+
+                 while(treeIndex != 0){
+                     treeIndex = (treeIndex >> 1);
+                     this.tree[treeIndex] = this.tree[treeIndex << 1] + this.tree[(treeIndex << 1) + 1];
+                 }
+             }
+         }
+
+         public int sumRange(int left, int right) {
+             int leftIndex = left + this.N;
+             int rightIndex = right + this.N;
+             int sum = 0;
+
+             while(leftIndex <= rightIndex){
+                 if((leftIndex & 1) == 1){ // odd
+                     sum = sum + this.tree[leftIndex];
+                     ++leftIndex;
+                 }
+
+                 if((rightIndex & 1) == 0){ // even
+                     sum = sum + this.tree[rightIndex];
+                     --rightIndex;
+                 }
+
+                 leftIndex = (leftIndex >> 1);
+                 rightIndex = (rightIndex >> 1);
+             }
+             return sum;
+         }
+     }
+
+     /**
+      *  IDEA 2:
+      *  Using segment tree(TreeNode version): TODO
+      **/
+
 }
