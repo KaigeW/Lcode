@@ -60,4 +60,20 @@ class Solution {
          return rtn;
      }
 
+    /**
+     * IDEA 4:
+     * Based on the previous experience, we know that
+     *   Odd i is i/2 in binary form shifting left one digit and, set the right
+     *   most to 1 ->  e.g. 3 -> 11, 1 -> 01
+     *   Even i is i/2 in binary form shifting left one digit
+     *                 e.g. 1 -> 1, 2 -> 10
+     */
+     public int[] countBits( int n ) {
+         int[] rtn = new int[n + 1];
+         for( int i = 1; i <= n; ++i ) {
+             rtn[i] = rtn[i >> 1] + (1 & i);
+         }
+         return rtn;
+     }
+
 }
