@@ -51,6 +51,7 @@ class Solution {
      * Integer i is has 1 more binary digit than i & (i - 1)
      * Therefore
      * ps. 剑指源码
+     * O(n)
      */
      public int[] countBits( int n ) {
          int[] rtn = new int[n + 1];
@@ -67,6 +68,8 @@ class Solution {
      *   most to 1 ->  e.g. 3 -> 11, 1 -> 01
      *   Even i is i/2 in binary form shifting left one digit
      *                 e.g. 1 -> 1, 2 -> 10
+     * ps. 剑指源码
+     * O(n)
      */
      public int[] countBits( int n ) {
          int[] rtn = new int[n + 1];
@@ -75,5 +78,7 @@ class Solution {
          }
          return rtn;
      }
+
+
 
 }
