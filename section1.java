@@ -1,10 +1,12 @@
 class Solution {
-   // for Question 2
-   public class ListNode {
+    // for Question 2
+    public class ListNode {
         int val;
         ListNode next;
         ListNode(int x) { val = x; }
-   }
+    }
+
+    
     // Question 1
     /**
      * IDEA:
@@ -31,8 +33,8 @@ class Solution {
         for( int i = 0; i < nums.length; ++i ){
             if( maps.containsKey(target-nums[i]) ){
                 return new int[]{maps.get(target-nums[i]), i};
-            }
-            maps.put(nums[i],i);
+            else
+                maps.put(nums[i],i);
         }
         return new int[]{};
     }
