@@ -5,6 +5,8 @@ class Solution {
      * IDEA:
      * Use sum array to figure out
      * ps. 剑指源码
+     * Time O(n)
+     * Space O(n)
      */
      public int subarraySum(int[] nums, int k) {
          Map<Integer, Integer> sumToCount = new HashMap<>();
