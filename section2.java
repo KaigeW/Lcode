@@ -166,4 +166,41 @@ class Solution {
         }
         return end.substring(0,i-1);
     }
+
+
+
+    // Question 15
+    /**
+     * IDEA 1:
+     * loop thru the array, and using two sum tricks to find the matched pairs
+     * Time: O(nlogn + n^2 )
+     *      search  + figuring
+     * Space: O(n)
+     *
+     * 请注意在使用loop前 搞清loop的用途
+     */
+
+     public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> result = new LinkedList<List<Integer>>();
+        for( int i = 0; i < nums.length - 2 && nums[i] <= 0; ++i ) {
+            int target = -nums[i];
+            int front = i + 1;
+            int back = nums.length - 1;
+            while( front < back ) {
+                if( nums[front] + nums[back] == target ) {
+                    result.add(Arrays.asList(nums[i], nums[front], nums[back]));
+                    while ( nums[front] == nums[++front] && front < back );
+                }
+                else if( nums[front] + nums[back] < target )
+                    ++front;
+                else
+                    --back;
+            }
+            while ( nums[i] == nums[i+1] && i < nums.length - 2 && nums[i] <= 0 )
+                ++i;
+        }
+        return result;
+     }
+
 }
