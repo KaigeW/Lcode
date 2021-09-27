@@ -4,6 +4,7 @@ class Solution {
     /**
      * IDEA:
      * Use two pointer to loop thru
+     * ps. 剑指源码
      * Time: O(n)
      * Space: O(1)
      */

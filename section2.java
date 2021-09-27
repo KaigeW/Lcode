@@ -176,7 +176,7 @@ class Solution {
      * Time: O(nlogn + n^2 )
      *      search  + figuring
      * Space: O(n)
-     *
+     * ps. 剑指源码
      * 请注意在使用loop前 搞清loop的用途
      */
 

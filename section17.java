@@ -41,6 +41,7 @@ class Solution {
      *   side index
      * Time: Worst O(n)
      * Space: O(1)
+     * ps. 剑指源码
      */
      public int[] twoSum( int[] nums, int target ) {
          int front = 0;
