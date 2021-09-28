@@ -129,6 +129,8 @@ class Solution {
      *  IDEA 3:
      *  Have a matrix of sum in the constructor
      *  Similar to 剑指源码
+     *  Time: O(N + K), N for construction, K for addition
+     *  Space: O(N)
      **/
 
     static class NumMatrix3 {
