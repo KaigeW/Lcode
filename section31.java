@@ -128,6 +128,7 @@ class Solution {
     /**
      *  IDEA 3:
      *  Have a matrix of sum in the constructor
+     *  Similar to 剑指源码
      **/
 
     static class NumMatrix3 {
@@ -138,7 +139,6 @@ class Solution {
 
             for(int i = 0; i < matrix.length; i++){
                 for(int j = 0; j < matrix[0].length; j++){
-                    //preSum[i + 1][j + 1] = curSum
                     preSum[i + 1][j + 1] = preSum[i][j + 1] + preSum[i + 1][j] - preSum[i][j] + matrix[i][j];
                 }
             }
