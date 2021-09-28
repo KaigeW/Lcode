@@ -1,4 +1,50 @@
 class Solution {
+    // question 724
+    /**
+     *  IDEA 1:
+     *  Calculate the sum of the index first, consider it as the rightSum,
+     *    Use a loop, to calculate the sum from the leftmost, and subtract it
+     *    from the rightSum, compare two values and return the first index that
+     *    make those two sum values equal
+     *
+     * Time: O(n) most 2n
+     * Space: O(1)
+     **/
+     public int pivotIndex(int[] nums) {
+         int rightSum = 0;
+         for( int num : nums )
+             rightSum += num;
+         int leftSum = 0;
+         for( int i = 0; i < nums.length; ++i ) {
+             rightSum -= nums[i];
+             if( leftSum == rightSum )
+                 return i;
+             leftSum += nums[i];
+         }
+         return -1;
+     }
+
+    /**
+     *  IDEA 2:
+     *  Similar thoughts as above!
+     *  Time: O(n) most 2n
+     *  Space: O(1)
+     * ps. 剑指源码
+     **/
+     public int pivotIndex(int[] nums) {
+         int total = 0;
+         for( int num: nums )
+             total += num;
+
+         int sum = 0;
+         for( int i = 0; i < nums.length; ++i ) {
+             sum += nums[i];
+             if( sum - nums[i] == total - sum)
+                 return i;
+         }
+         return -1;
+     }
+
 
     // question 728
     /**
