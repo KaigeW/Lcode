@@ -2,7 +2,7 @@ class Solution {
     // Question 567
     /**
      * IDEA 1:
-     Counter case: It is impossible for a String to contain another String with
+     * Counter case: It is impossible for a String to contain another String with
         larger size
      * use an int array to count how many times each character show up in str1
      * loop thru the str2 for s2.len - s1.len +1 (repeat) time to get exactly
@@ -106,4 +106,44 @@ class Solution {
         }
         return count == 26;
     }
+
+    /**
+     * IDEA 4:
+     * ps. 剑指源码
+     * Time: O(M+N)
+     * Space: O(1)
+     **/
+
+     public boolean checkInclusion(String s1, String s2) {
+         if( s2.length() < s1.length() )
+             return false;
+         int[] counts = new int[26];
+
+         // reason of having s2 is to initiate the s1 loop, and s2 check
+         for( int i = 0; i < s1.length(); ++i ) {
+           counts[s1.charAt(i) - 'a']++;
+           counts[s2.charAt(i) - 'a']--;
+         }
+         if( areAllZero(counts))
+             return true;
+
+         for( int i = s1.length(); i < s2.length(); ++i ) {
+             counts[s2.charAt(i) - 'a']--;
+             counts[s2.charAt(i - s1.length()) - 'a']++;
+             if( areAllZero(counts)) {
+                 return true;
+             }
+         }
+
+         return false;
+     }
+
+     private boolean areAllZero(int[] counts) {
+       for( int count: counts ) {
+           if( count != 0 ) {
+               return false;
+           }
+       }
+       return true;
+     }
 }
