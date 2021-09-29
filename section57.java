@@ -113,7 +113,6 @@ class Solution {
      * Time: O(M+N)
      * Space: O(1)
      **/
-
      public boolean checkInclusion(String s1, String s2) {
          if( s2.length() < s1.length() )
              return false;
