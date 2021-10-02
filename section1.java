@@ -6,7 +6,7 @@ class Solution {
         ListNode(int x) { val = x; }
     }
 
-    
+
     // Question 1
     /**
      * IDEA:
@@ -126,7 +126,7 @@ class Solution {
      * Sliding windows, have two pointers a, b index pointing to 0 positions.
      * If found a new char, add it into the set, and add 1 to ending pointer b.
      *      Also, check the possible longest length.
-     * If found a existing char, remove the char at beginning pointer a and
+     * If found a existing char, remove the char at beginning pointer and
      *      increase a, until the exisiting char is removed from set.
      * Once begin/end pointer reached the end, break the loop, and return rtn
      */
@@ -152,7 +152,7 @@ class Solution {
 
      /**
       * IDEA 3:
-      * *** NEED TO BE FILLED ***
+      * *** NEED TO BE FILLED *** TODO
       * Sliding windows, have two pointers a, b index pointing to 0 positions.
       * If found a existing char, keep on checking and setting a to the newest
       * duplicate.
@@ -168,11 +168,42 @@ class Solution {
         // try to extend the range [i, j]
         for (int j = 0, i = 0; j < n; j++) {
            i = (index[s.charAt(j)]>i?index[s.charAt(j)]:i);
-           ans = (ans > (j - i + 1)?ans:(j - i + 1);
+           ans = (ans > (j - i + 1)?ans:(j - i + 1));
            index[s.charAt(j)] = j + 1;
         }
         return ans;
      }
+
+     /**
+      * IDEA 4:
+      *
+      * ps. 剑指源码
+      */
+      public int lengthOfLongestSubstring(String s) {
+          if( s.length() == 0 )
+              return 0;
+
+          int[] counts = new int[256];
+          int i = 0;
+          int j = -1;
+          int longest = 1;
+          int countDup = 0;
+          for(; i < s.length(); ++i ) {
+              counts[s.charAt(i)]++;
+              if( counts[s.charAt(i)] == 2)
+                  countDup++;
+
+              while( countDup > 0 {
+                  ++j;
+                  counts[s.charAt(j)]--;
+                  if( counts[s.charAt(j)] == 1 )
+                      countDup--;
+              }
+              longest = Math.max(i-j, longest);
+          }
+          return longest;
+      }
+
 
      // Question 5
      /**
