@@ -171,8 +171,42 @@ class Solution {
          return headA;
      }
 
+     /**
+      * IDEA 2:
+      * Modify the list so that, it became a list with a loop. Then use the
+      *   detecting cycle to determine the beginning of the loop which is the
+      *   first common node
+      *
+      *  Space: O()
+      *  Time: O()
+      *  Idea inspired by 剑指
+      */
+      public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+          ListNode connectNode = headB;
+          while( connectNode.next != null ) {
+              connectNode = connectNode.next;
+          }
+          connectNode.next = headB;
 
+          if( headB == null)
+              return null;
+          int loopCount = 1;
+          for( ListNode n = headB; n.next != headB; n = n.next)
+              loopCount++;
 
+          ListNode fast = headA;
+          for( int i = 0; i < loopCount; ++i )
+              fast = fast.next;
 
+          ListNode slow = headA;
+          while( fast != slow && fast != null ) {
+              fast = fast.next;
+              slow = slow.next;
+          }
+
+          connectNode.next = null;
+
+          return fast;
+      }
 
 }
