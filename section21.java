@@ -63,5 +63,43 @@ class Solution {
         return null;
     }
 
+    // Question 206
+    /**
+     *  IDEA 1:
+     *  Reverse a list
+     *  Space: O(n)
+     *  Time: O(n)
+     *
+     **/
+     public ListNode reverseList(ListNode head) {
+         ListNode newHead = null;
+         ListNode temp = head;
+         while( head != null ) {
+             newHead = new ListNode(head.val, newHead);
+             head = head.next;
+         }
+         return newHead;
+     }
+
+    /**
+     *  IDEA 2:
+     *  Reverse a list
+     *  Space: O(1)
+     *  Time: O(n)
+     *
+     * ps. 剑指源码
+     *
+     **/
+     public ListNode reverseList(ListNode head) {
+         ListNode prev = null;
+         ListNode cur = head;
+         while( cur != null ) {
+             ListNode next = cur.next;
+             cur.next = prev;
+             prev = cur;
+             cur = next;
+         }
+         return prev;
+     }
 
 }
