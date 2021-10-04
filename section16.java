@@ -127,4 +127,52 @@ class Solution {
             return (int)min;
         }
     }
+
+
+    // Question 160
+    /**
+     * IDEA 1:
+     * Figure out the length of two lists, then let the longer one start first,
+     *   until they have the same remaining nodes. We can check the equality of
+     *   the node
+     *
+     *  Space: O(1)
+     *  Time: O(n)
+     *  Idea inspired by 剑指
+     */
+     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+         int lengthA = 0, lengthB = 0;
+         ListNode newHeadA = headA, newHeadB = headB;
+         while( newHeadA != null ) {
+             newHeadA = newHeadA.next;
+             lengthA++;
+         }
+         while( newHeadB != null ) {
+             newHeadB = newHeadB.next;
+             lengthB++;
+         }
+         if( lengthA > lengthB ) {
+             int loop = lengthA - lengthB;
+             while( loop-- > 0 ){
+                 headA = headA.next;
+             }
+         } else if( lengthA < lengthB ){
+             int loop = lengthB - lengthA;
+             while( loop-- > 0 ){
+                 headB = headB.next;
+             }
+         }
+
+         while( headA != headB ) {
+             headA = headA.next;
+             headB = headB.next;
+         }
+
+         return headA;
+     }
+
+
+
+
+
 }
