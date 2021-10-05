@@ -85,4 +85,103 @@ class Solution {
          return null;
      }
 
+
+    // Question 143
+    /**
+     * IDEA 1:
+     * Use fast and slow to find out the middle of the list, and reverse the
+     *   list
+     *
+     *   Space: O(1)
+     *   Time: O(n)
+     *
+     * inspired by 剑指
+     */
+     public void reorderList(ListNode head) {
+         ListNode middle = middleNode(head);
+         ListNode reversed = reverseList(middle);
+         ListNode headNext = null, reversedNext = null;
+         while( head != null && reversed != null ) {
+             headNext = head.next;
+             reversedNext = reversed.next;
+             head.next = reversed;
+             reversed.next = headNext;
+             head = headNext;
+             reversed = reversedNext;
+         }
+         if( head != null )
+             head.next = null;
+     }
+
+     public ListNode middleNode(ListNode head) {
+         ListNode slow = head, fast = head;
+         while( fast != null ) {
+             fast = fast.next;
+             slow = slow.next;
+             if( fast != null )
+                 fast = fast.next;
+             else
+                 break;
+         }
+         return slow;
+     }
+
+     public ListNode reverseList( ListNode head ) {
+         if( head == null )
+             return null;
+         ListNode prev = null;
+         ListNode next = head;
+         while( head.next != null ) {
+             next = head.next;
+             head.next = prev;
+             prev = head;
+             head = next;
+         }
+         head.next = prev;
+         return head;
+     }
+
+    /**
+     * IDEA 2:
+     * Use fast and slow to find out the middle of the list, and reverse the
+     *   list
+     *
+     *   Space: O(1)
+     *   Time: O(n)
+     *
+     * ps. 剑指源码
+     */
+     public void reorderList(ListNode head) {
+         ListNode dummy = new ListNode(0);
+         dummy.next = head;
+         ListNode fast = dummy;
+         ListNode slow = dummy;
+         while( fast != null && fast.next != null ) {
+             slow = slow.next;
+             fast = fast.next;
+             if( fast.next != null )
+                 fast = fast.next;
+         }
+
+         ListNode temp = slow.next;
+         slow.next = null;
+         link(head, reverseList(temp), dummy);
+     }
+
+     private void link(ListNode node1, ListNode node2, ListNode head) {
+         ListNode prev = head;
+         while( node1 != null && node2 != null) {
+             ListNode temp = node1.next;
+
+             prev.next = node1;
+             node1.next = node2;
+             prev = node2;
+
+             node1 = temp;
+             node2 = node2.next;
+         }
+         if( node1 != null )
+             prev.next = node1;
+     }
+
 }
