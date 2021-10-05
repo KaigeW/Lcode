@@ -81,8 +81,30 @@ class Solution {
          return newHead;
      }
 
+     /**
+      *  IDEA 2:
+      *  Reverse a list
+      *  Space: O(1)
+      *  Time: O(n)
+      *
+      **/
+     public ListNode reverseList( ListNode head ) {
+         if( head == null )
+             return null;
+         ListNode prev = null;
+         ListNode next = head;
+         while( head.next != null ) {
+             next = head.next;
+             head.next = prev;
+             prev = head;
+             head = next;
+         }
+         head.next = prev;
+         return head;
+     }
+
     /**
-     *  IDEA 2:
+     *  IDEA 3:
      *  Reverse a list
      *  Space: O(1)
      *  Time: O(n)
