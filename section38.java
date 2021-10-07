@@ -33,6 +33,8 @@ class Solution {
 
              int location = numToLocation.get(val);
 
+             // exchange remove val with the val from last index, later we can
+             //   just delete the last index
              numToLocation.put(nums.get(nums.size() - 1), location);
              numToLocation.remove(val);
              nums.set(location, nums.get(nums.size() - 1));
