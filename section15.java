@@ -184,4 +184,114 @@ class Solution {
              prev.next = node1;
      }
 
+    // Question 146
+    /**
+     * IDEA 1:
+     * Use fast and slow to find out the middle of the list, and reverse the
+     *   list
+     *
+     *   Space: O(1)
+     *   Time: O(n)
+     *
+     * inspired by 剑指
+     */
+     class LRUCache {
+
+         public LRUCache(int capacity) {
+
+         }
+
+         public int get(int key) {
+
+         }
+
+         public void put(int key, int value) {
+
+         }
+     }
+
+
+    // Question 150
+    /**
+     * IDEA 1:
+     *   Loop thru the string list from the front. If saw number, push to the
+     *     stack, Otherwise, pop two numbers from the stack, execute the
+     *     corresponding operation, and push the result back to the stack
+     *   Space: O(N)
+     *   Time: O(N)
+     *
+     */
+     public int evalRPN(String[] tokens) {
+         Stack<Integer> nums = new Stack<>();
+         for( String str: tokens ){
+             char temp = str.charAt(0);
+             if( (temp >= '0' && temp <= '9')
+               || (temp == '-' && str.length() > 1) )
+                 nums.push(Integer.parseInt(str));
+             else{
+                 int sec = nums.pop();
+                 int fir = nums.pop();
+                 if( temp == '+' ) {
+                     nums.push(fir + sec);
+                 }
+                 else if( temp == '-') {
+                     nums.push(fir - sec);
+                 }
+                 else if( temp == '*') {
+                     nums.push(fir * sec);
+                 }
+                 else if( temp == '/') {
+                     nums.push(fir / sec);
+                 }
+             }
+         }
+         return nums.pop();
+     }
+
+    /**
+     * IDEA 2:
+     *   Similar to above. But use String literal and switch statement
+     *     to compare and calculate
+     *   Space: O(N)
+     *   Time: O(N)
+     *
+     * p.s. 剑指源码
+     */
+     public int evalRPN(String[] tokens) {
+         Stack<Integer> stack = new Stack<Integer>();
+         for( String token: tokens) {
+             switch(token) {
+                 case "+":
+                 case "-":
+                 case "*":
+                 case "/":
+                     int num1 = stack.pop();
+                     int num2 = stack.pop();
+                     stack.push(calculate(num2, num1, token));
+                     break;
+                 default:
+                     stack.push(Integer.parseInt(token));
+             }
+         }
+
+         return stack.pop();
+     }
+
+     private int calculate(int num1, int num2, String operator) {
+         switch(operator) {
+             case "+":
+                 return num1 + num2;
+             case "-":
+                 return num1 - num2;
+             case "*":
+                 return num1 * num2;
+             case "/":
+                 return num1 / num2;
+             default:
+                 return 0;
+         }
+     }
+
+
+
 }
