@@ -186,10 +186,12 @@ class Solution {
 
          return Integer.parseInt(String.valueOf(S));
      }
+
      // Question 739
      /**
       * IDEA 1:
-      *
+      * Time: O(n^2)
+      * Space: O(n)
       */
      public int[] dailyTemperatures(int[] T) {
          int[] rtn = new int[T.length];
@@ -216,16 +218,39 @@ class Solution {
       * IDEA 2:
       * COMPREHENSIV
       */
-     public int[] dailyTemperatures( int[] T ){
-         int[] ans = new int [T.length];
-         Stack<Integer> stack = new Stack();
-         for( int i = T.length - 1; i >= 0; --i ){
-             while( !stack.isEmpty() && T[i] >= T[stack.peek()]) stack.pop()；
-             ans[i] = stack.isEmpty()?0:stack.peek()-i;
-             stack.push(i);
-         }
-         return ans;
-     }
+      public int[] dailyTemperatures( int[] T ){
+          int[] ans = new int [T.length];
+          Stack<Integer> stack = new Stack();
+          for( int i = T.length - 1; i >= 0; --i ){
+              while( !stack.isEmpty() && T[i] >= T[stack.peek()]) stack.pop()；
+              ans[i] = stack.isEmpty()?0:stack.peek()-i;
+              stack.push(i);
+          }
+          return ans;
+      }
+
+     /**
+      * IDEA 3:
+      * ps. 剑指源码
+      *
+      * Space: O(n)
+      * Time: O(n)
+      */
+
+      public int[] dailyTemperatures( int[] temperatures ) {
+          int[] result = new int[temperatures.length];
+          Stack<Integer> stack = new Stack<>();
+          for( int i = 0; i < temperatures.length; i++) {
+              while( !stack.empty()
+                  && temperatures[i] > temperatures[stack.peek()] ) {
+                  int prev = stack.pop();
+                  result[prev] = i - prev;
+              }
+              stack.push(i);
+          }
+          return result;
+      }
+
 
      // Question 740
      /**
