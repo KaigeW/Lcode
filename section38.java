@@ -13,7 +13,7 @@ class Solution {
 
          public RandomizedSet() {
              this.numToLocation = new HashMap<>();
-             this.num = new ArrayList<>();
+             this.nums = new ArrayList<>();
          }
 
          public boolean insert(int val) {
@@ -43,6 +43,7 @@ class Solution {
          }
 
          public int getRandom() {
+           Random random = new Random();
            int r = random.nextInt(nums.size());
            return nums.get(r);
          }
