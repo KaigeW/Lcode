@@ -4,7 +4,7 @@ class Solution {
     /**
      * IDEA:
      *
-     * Inspire to 剑指源码, but could be much simpler
+     * Inspire to 剑指源码, but could be a bit simpler
      */
      static class CBTInserter {
 
