@@ -1,5 +1,78 @@
 class Solution {
 
+    // Question 513
+    /**
+     * IDEA:
+     *
+     * Time: O(n)
+     * Space: O(n)
+     */
+
+     public int findBottomLeftValue(TreeNode root) {
+         TreeNode leftMost = root;
+         Queue<TreeNode> tree = new LinkedList<>();
+         tree.offer(root);
+         int loops = 1;
+         int nextLoop = 0;
+         while( !tree.isEmpty() ) {
+             TreeNode temp = tree.poll();
+             if( temp.left != null ){
+                 tree.offer(temp.left);
+                 nextLoop++;
+             }
+             if( temp.right != null ){
+                 tree.offer(temp.right);
+                 nextLoop++;
+             }
+             --loops;
+             if( !tree.isEmpty() && loops == 0 ) {
+                 loops = nextLoop;
+                 nextLoop = 0;
+                 leftMost = tree.peek();
+             }
+         }
+         return leftMost.val;
+     }
+
+    /**
+     * IDEA2:
+     *
+     * Using two queues
+     *
+     * Time: O(n)
+     * Space: O(n)
+     *
+     * p.s. 剑指源码
+     */
+     public int findBottomLeftValue(TreeNode root) {
+         Queue<TreeNode> queue1 = new LinkedList<>();
+         Queue<TreeNode> queue2 = new LinkedList<>();
+
+         queue1.offer(root);
+         int bottomLeft = root.val;
+         while( !queue1.isEmpty() ) {
+             TreeNode node = queue1.poll();
+             if( node.left != null ) {
+                 queue2.offer(node.left);
+             }
+             if( node.right != null ) {
+                 queue2.offer(node.right);
+             }
+
+             if( queue1.isEmpty() ) {
+                 queue1 = queue2;
+                 queue2 = new LinkedList<>();
+                 if( !queue1.isEmpty() ) {
+                     bottomLeft = queue1.peek().val;
+                 }
+             }
+         }
+
+         return bottomLeft;
+     }
+
+
+
     // Question 515
     /**
      * IDEA:
