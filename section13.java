@@ -64,4 +64,38 @@ class Solution {
          }
          return true;
      }
+
+    // Question 129
+    /**
+     * IDEA:
+     * preorder traverse the tree
+     *
+     * Space: O(1)
+     * Time: O(n)
+     */
+     public int sumNumbers(TreeNode root) {
+         int sum = 0;
+         int[] rtn = {0};
+         traverse(root, sum, rtn);
+         return rtn[0];
+     }
+
+     public void traverse(TreeNode root, int sum, int[] rtn) {
+         if( root == null )
+             return;
+         if( root.left == null && root.right == null ) {
+             rtn[0] += sum * 10 + root.val;
+             return;
+         }
+         traverse(root.left, sum * 10 + root.val, rtn);
+         traverse(root.right, sum * 10 + root.val, rtn);
+     }
+
+    /**
+     * IDEA2:
+     * p.s. 剑指源码
+     * TODO: 理解
+     * Space: O(1)
+     * Time: O(n)
+     */
 }
