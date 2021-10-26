@@ -292,6 +292,35 @@ class Solution {
          return rtn;
      }
 
+    /**
+     * IDEA 4:
+     * p.s. 剑指源码
+     */
+     public TreeNode increasingBST(TreeNode root) {
+         Stack<TreeNode> stack = new Stack<>();
+         TreeNode cur = root;
+         TreeNode prev = null;
+         TreeNode first = null;
+         while( cur != null || !stack.isEmpty() ) {
+             while( cur != null ) {
+                 stack.push(cur);
+                 cur = cur.left;
+             }
+
+             cur = stack.pop();
+             if( prev != null ) {
+                 prev.right = cur;
+             } else {
+                 first = cur;
+             }
+
+             prev = cur;
+             cur.left = null;
+             cur = cur.right;
+         }
+         return first;
+     }
+
 
     // Question 898
     /**
