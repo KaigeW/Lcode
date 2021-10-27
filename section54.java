@@ -1,5 +1,61 @@
 class Solution {
 
+    // Question 538
+    /**
+     * IDEA 1:
+     * traverse the tree using a reverse-in-order order, since its a binary
+     *   search tree, right side is always bigger than the left side, using the
+     *   recursive
+     *
+     * This approach is more time efficient
+     *
+     * Time: O(n)
+     * Space: O(1)
+     *
+     */
+     public TreeNode convertBST(TreeNode root) {
+         replaceValueWithSum( root, 0 );
+     }
+
+     private int replaceValueWithSum(TreeNode node, int value){
+         if( node == null )
+             return 0;
+         int right = replaceValueWithSum(node.right, value);
+         node.val += right == 0? value: right;
+         int left = replaceValueWithSum(node.left, node.val);
+         return left == 0? node.val: left;
+     }
+
+    /**
+     * IDEA 2:
+     * Same idea, but not using the recursive, using stack instead
+     *
+     * This approach is more memory efficient
+     *
+     * Time: O(n)
+     * Space: O(logN)
+     *
+     * p.s. 剑指源码
+     *
+     */
+     public TreeNode convertBST(TreeNode root) {
+         Stack<TreeNode> stack = new Stack<>();
+         TreeNode cur = root;
+         int sum = 0;
+         while( cur != null || !stack.isEmpty() ) {
+             while( cur != null ) {
+                 stack.push(cur);
+                 cur = cur.right;
+             }
+             cur = stack.pop();
+             sum += cur.val;
+             cur.val = sum;
+             cur = cur.left;
+         }
+         return root;
+     }
+
+
     // Question 539
     /**
      * IDEA 1:
