@@ -1,5 +1,43 @@
 class Solution {
 
+    // Question 215
+    /**
+     *  IDEA 1:
+     *  Use array to sort first, then the kth index would be the kth largest
+     **/
+     public int findKthLargest(int[] nums, int k) {
+         if( k - 1 >= nums.length )
+             return Integer.MIN_VALUE;
+         Arrays.sort(nums);
+         return nums[k - 1];
+     }
+
+     /**
+      *  IDEA :
+      *
+      *  Couldn't beat Arrays helper function, above, but still good to know
+      *
+      *  Use heap, PriorityQueue with a size of the n, where n is the nth wanted
+      *    largest number. The min heap is used here, so that the peek() funtion
+      *    will always return the smallest in the heap and the nth largest in
+      *    the heap
+      **/
+      public int findKthLargest( int[] nums, int k) {
+          PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+          for( int num: nums ) {
+              if( minHeap.size() < k )
+                  minHeap.offer(num);
+              else {
+                  if( num > minHeap.peek() ) {
+                      minHeap.poll();
+                      minHeap.offer(num);
+                  }
+              }
+          }
+          return minHeap.peek();
+      }
+
+
     // Question 219
     /**
      *  IDEA 1:
