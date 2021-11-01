@@ -1,4 +1,80 @@
 class Solution {
+    // question 112
+    /**
+     *  IDEA 1:
+     *  Traverse the tree, find out each possible path from root to leaf
+     *
+     **/
+     public boolean hasPathSum(TreeNode root, int targetSum) {
+         if( root != null )
+             return traverseTree( root, targetSum, root.val );
+         return false;
+     }
+
+     private boolean traverseTree( TreeNode node, int targetSum, int sum ) {
+         if( node == null )
+             return false;
+         // ATTENTION TO THE LAST CONDITION, it prechecks the equality
+         if( node.left == null && node.right == null && targetSum == sum + node.val )
+             return true;
+
+         return traverseTree( node.left, targetSum, sum + node.val)
+           || traverseTree( node.right, targetSum, sum + node.val);
+     }
+
+    /**
+     *  IDEA 2:
+     *  Traverse the tree, find out each possible path from root to leaf
+     *  Different tree traversal but still in in-order
+     **/
+
+     public boolean hasPathSum( TreeNode root, int targetSum ) {
+         if( root == null )
+             return false;
+         if( root.left == null && root.right == null
+           && targetSum - root.val == 0)
+             return true;
+         return hasPathSum(root.left, targetSum - root.val)
+           || hasPathSum(root.right, targetSum - root.val);
+     }
+
+    // question 113
+    /**
+     *  IDEA :
+     *  Based on the previous idea, return the list of list object of the result
+     *
+     *  Space: O(n)
+     *  Time: O(n)
+     */
+     public List<List<Integer>> pathSum( TreeNode root, int targetSum ) {
+         List<List<Integer>> resultList = new LinkedList<List<Integer>>();
+         List<Integer> current = new LinkedList<>();
+         traversePathSum(root, targetSum, resultList, current);
+         return resultList;
+     }
+
+     public void traversePathSum( TreeNode node, int targetSum,
+       List<List<Integer>> resultList, List<Integer> currentList ) {
+         if( node == null )
+             return;
+
+         if( node.left == null && node.right == null
+           && targetSum - node.val == 0 ) {
+             currentList.add(new Integer(node.val));
+             resultList.add(new LinkedList(currentList));
+             // thought i can optimize this
+             currentList.remove(currentList.size() - 1);
+         }
+         currentList.add(new Integer(node.val));
+         traversePathSum( node.left, targetSum - node.val, resultList,
+           currentList);
+         traversePathSum( node.right, targetSum - node.val, resultList,
+           currentList);
+         currentList.remove(currentList.size() - 1);
+     }
+
+
+
     // question 118?
     /**
      *  IDEA 1:

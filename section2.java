@@ -2,6 +2,7 @@ class Solution {
     // Question 11
     /**
      * IDEA :
+     * TODO
      * NOT REALLY UNDERSTAND.....
      */
     public int maxArea(int[] height) {
@@ -201,6 +202,87 @@ class Solution {
                 ++i;
         }
         return result;
+     }
+
+    // Question 19
+    /**
+     * IDEA 1:
+     * Figure out the length first, then loop the second time to delete
+     *
+     * Space: O(1)
+     * Time: O(n)
+     */
+     public ListNode removeNthFromEnd(ListNode head, int n) {
+         ListNode nHead = head;
+         int length = 0;
+         while( head != null ) {
+             head = head.next;
+             length++;
+         }
+         int loop = length - n;
+         head = nHead;
+         if( loop == 0 )
+             return head.next;
+         while( loop > 1 ) {
+             head = head.next;
+             loop--;
+         }
+         head.next = head.next.next;
+         return nHead;
+     }
+
+    /**
+     * IDEA 2:
+     * Use two pointers so that the distance between these two pointers is k+1,
+     *   when the right side pointer is at the end, left side would be at k+1
+     *
+     * Space: O(1)
+     * Time: O(n)
+     */
+
+     public ListNode removeNthFromEnd(ListNode head, int n) {
+         ListNode leftNode = head, rightNode = head;
+         int loop = n;
+         while( n-- > 0 ) {
+             rightNode = rightNode.next;
+         }
+
+         if( rightNode.next == null )
+             return head.next;
+         while( rightNode.next != null ) {
+             leftNode = leftNode.next;
+             rightNode = rightNode.next;
+         }
+         leftNode.next = leftNode.next.next;
+         return head;
+     }
+
+    /**
+     * IDEA 3:
+     * Use two pointers so that the distance between these two pointers is k+1,
+     *   when the right side pointer is at the end, left side would be at k+1
+     *
+     * Space: O(1)
+     * Time: O(n)
+     *
+     * ps. 剑指源码
+     */
+     public ListNode removeNthFromEnd(ListNode head, int n) {
+         ListNode dummy = new ListNode(0);
+         dummy.next = head;
+
+         ListNode front = head, back = dummy;
+         for( int i = 0; i < n; i++ ) {
+             front = front.next;
+         }
+
+         while( front != null ) {
+             front = front.next;
+             back = back.next;
+         }
+
+         back.next = back.next.next;
+         return dummy.next;
      }
 
 }

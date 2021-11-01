@@ -127,4 +127,86 @@ class Solution {
             return (int)min;
         }
     }
+
+
+    // Question 160
+    /**
+     * IDEA 1:
+     * Figure out the length of two lists, then let the longer one start first,
+     *   until they have the same remaining nodes. We can check the equality of
+     *   the node
+     *
+     *  Space: O(1)
+     *  Time: O(n)
+     *  Idea inspired by 剑指
+     */
+     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+         int lengthA = 0, lengthB = 0;
+         ListNode newHeadA = headA, newHeadB = headB;
+         while( newHeadA != null ) {
+             newHeadA = newHeadA.next;
+             lengthA++;
+         }
+         while( newHeadB != null ) {
+             newHeadB = newHeadB.next;
+             lengthB++;
+         }
+         if( lengthA > lengthB ) {
+             int loop = lengthA - lengthB;
+             while( loop-- > 0 ){
+                 headA = headA.next;
+             }
+         } else if( lengthA < lengthB ){
+             int loop = lengthB - lengthA;
+             while( loop-- > 0 ){
+                 headB = headB.next;
+             }
+         }
+
+         while( headA != headB ) {
+             headA = headA.next;
+             headB = headB.next;
+         }
+
+         return headA;
+     }
+
+     /**
+      * IDEA 2:
+      * Modify the list so that, it became a list with a loop. Then use the
+      *   detecting cycle to determine the beginning of the loop which is the
+      *   first common node
+      *
+      *  Space: O()
+      *  Time: O()
+      *  Idea inspired by 剑指
+      */
+      public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+          ListNode connectNode = headB;
+          while( connectNode.next != null ) {
+              connectNode = connectNode.next;
+          }
+          connectNode.next = headB;
+
+          if( headB == null)
+              return null;
+          int loopCount = 1;
+          for( ListNode n = headB; n.next != headB; n = n.next)
+              loopCount++;
+
+          ListNode fast = headA;
+          for( int i = 0; i < loopCount; ++i )
+              fast = fast.next;
+
+          ListNode slow = headA;
+          while( fast != slow && fast != null ) {
+              fast = fast.next;
+              slow = slow.next;
+          }
+
+          connectNode.next = null;
+
+          return fast;
+      }
+
 }

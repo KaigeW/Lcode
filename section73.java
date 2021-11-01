@@ -140,22 +140,51 @@ class Solution {
      * review treeMap...
      */
 
-    class MyCalendar{
-        TreeMap<Integer, Integer> calendar;
+     class MyCalendar{
+         TreeMap<Integer, Integer> calendar;
 
-        MyCalendar(){
-            calendar = new TreeMap();
-        }
+         MyCalendar(){
+             calendar = new TreeMap();
+         }
 
-        public boolean book(int start, int end){
-            Integer prev = calendar.floorKey(start),
-                    next = calendar.ceilingKey(start);
-            if((prev == null || calendar.get(prev) <= start) &&
-                    (next == null || end <= next)){
-                        calendar.put(start, end);
-                        return true;
-                    }
-            return false;
-        }
-    }
+         public boolean book(int start, int end){
+             Integer prev = calendar.floorKey(start),
+                     next = calendar.ceilingKey(start);
+             if((prev == null || calendar.get(prev) <= start) &&
+                     (next == null || end <= next)){
+                         calendar.put(start, end);
+                         return true;
+                     }
+             return false;
+         }
+     }
+
+    /**
+     * IDEA 3:
+     *
+     * faster
+     * p.s. 剑指源码
+     *
+     */
+
+     class MyCalendar{
+         TreeMap<Integer, Integer> calendar;
+
+         MyCalendar(){
+             calendar = new TreeMap();
+         }
+
+         public boolean book(int start, int end){
+             Map.Entry<Integer, Integer> event = calendar.floorEntry(start);
+             if( event != null && event.getValue() > start )
+                 return false;
+             event = calendar.ceilingEntry(start);
+             if( event != null && event.getKey() < end )
+                 return false;
+
+             calendar.put(start, end);
+             return true;
+         }
+     }
+
 }

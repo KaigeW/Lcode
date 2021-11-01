@@ -27,6 +27,7 @@ class Solution {
     // Question 735
     /**
      * IDEA :
+     * From leetcode comment
      * COMPREHENSIV
      */
      public int[] asteroidCollision(int[] asteroids) {
@@ -45,6 +46,77 @@ class Solution {
          }
          return s.stream().mapToInt(i->i).toArray();
      }
+
+
+    /**
+     * IDEA 2:
+     * Manual compare and loop
+     */
+
+
+     public int[] asteroidCollision(int[] asteroids) {
+         Stack<Integer> aster = new Stack<>();
+         boolean equal = false;
+         for( int next: asteroids ) {
+             if( aster.isEmpty() || aster.peek() < 0 || next > 0 )
+                 aster.push(next);
+             else if( Math.abs(aster.peek()) == Math.abs(next) ) {
+                 aster.pop();
+             }
+             else if( Math.abs(aster.peek()) < Math.abs(next) ) {
+                 aster.pop();
+                 while( !aster.isEmpty() && aster.peek() > 0 ) {
+                     if( Math.abs(aster.peek()) < Math.abs(next)) {
+                         aster.pop();
+                         continue;
+                     }
+                     else if( Math.abs(aster.peek()) == Math.abs(next) ){
+                         aster.pop();
+                         equal = true;
+                     }
+                     break;
+                 }
+                 if( !equal && ( aster.isEmpty() || aster.peek() < 0
+                      || Math.abs(aster.peek()) < Math.abs(next)) )
+                     aster.push(next);
+                 equal = false;
+             }
+         }
+         int[] rtn = new int[aster.size()];
+         for( int i = aster.size() - 1; i >= 0; --i )
+             rtn[i] = aster.pop();
+         return rtn;
+     }
+
+
+    /**
+     * IDEA 3:
+     * Manual compare and loop
+     * COMPREHENSIV
+     *
+     * Similar to idea1???
+     *
+     * ps. 剑指源码
+     */
+     public int[] asteroidCollision( int[] asteroids) {
+         Stack<Integer> stack = new Stack<>();
+         for( int as : asteroids) {
+             while( !stack.empty() && stack.peek() > 0 && stack.peek() < -as ) {
+                 stack.pop();
+             }
+
+             if(!stack.empty() && as < 0 && stack.peek() == -as ){
+                 stack.pop();
+             } else if( as > 0 || stack.empty() || stack.peek() < 0) {
+                 stack.push(as);
+             }
+         }
+
+         return stack.stream().mapToInt(i -> i).toArray();
+
+     }
+
+
 
      // Question 738
      /**
@@ -114,10 +186,12 @@ class Solution {
 
          return Integer.parseInt(String.valueOf(S));
      }
+
      // Question 739
      /**
       * IDEA 1:
-      *
+      * Time: O(n^2)
+      * Space: O(n)
       */
      public int[] dailyTemperatures(int[] T) {
          int[] rtn = new int[T.length];
@@ -144,16 +218,39 @@ class Solution {
       * IDEA 2:
       * COMPREHENSIV
       */
-     public int[] dailyTemperatures( int[] T ){
-         int[] ans = new int [T.length];
-         Stack<Integer> stack = new Stack();
-         for( int i = T.length - 1; i >= 0; --i ){
-             while( !stack.isEmpty() && T[i] >= T[stack.peek()]) stack.pop()；
-             ans[i] = stack.isEmpty()?0:stack.peek()-i;
-             stack.push(i);
-         }
-         return ans;
-     }
+      public int[] dailyTemperatures( int[] T ){
+          int[] ans = new int [T.length];
+          Stack<Integer> stack = new Stack();
+          for( int i = T.length - 1; i >= 0; --i ){
+              while( !stack.isEmpty() && T[i] >= T[stack.peek()]) stack.pop()；
+              ans[i] = stack.isEmpty()?0:stack.peek()-i;
+              stack.push(i);
+          }
+          return ans;
+      }
+
+     /**
+      * IDEA 3:
+      * ps. 剑指源码
+      *
+      * Space: O(n)
+      * Time: O(n)
+      */
+
+      public int[] dailyTemperatures( int[] temperatures ) {
+          int[] result = new int[temperatures.length];
+          Stack<Integer> stack = new Stack<>();
+          for( int i = 0; i < temperatures.length; i++) {
+              while( !stack.empty()
+                  && temperatures[i] > temperatures[stack.peek()] ) {
+                  int prev = stack.pop();
+                  result[prev] = i - prev;
+              }
+              stack.push(i);
+          }
+          return result;
+      }
+
 
      // Question 740
      /**
