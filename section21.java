@@ -130,7 +130,6 @@ class Solution {
     /**
      * IDEA 1:
      *  Inspired by 剑指，the implementation of the TrieNode
-     *
      */
      static class Trie {
          static class TrieNode {
