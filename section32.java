@@ -40,6 +40,9 @@ class Solution {
      * IDEA 2:
      * Since only lower case are included, we can use int[26] to represent
      *   hashset
+     *
+     * Inspired by 剑指
+     *
      * Time: O(n^2)
      * Space: O(n)
      */
