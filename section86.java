@@ -68,6 +68,10 @@ class Solution {
     /**
      * IDEA :
      * Linear check
+     *
+     * Time: O(n)
+     * Space: O(1)
+     *
      */
     public int peakIndexInMountainArray(int[] A) {
         int lastIndex = 0;
@@ -80,21 +84,72 @@ class Solution {
         return lastIndex;
     }
 
+
+
     /**
      * IDEA :
      * Binary Search
      */
-    public int peakIndexInMountainArray(int[] A) {
-        int lo = 0, hi = A.length - 1;
-        while (lo < hi) {
-            int mi = lo + (hi - lo) / 2;
-            if (A[mi] < A[mi + 1])
-                lo = mi + 1;
+     public int peakIndexInMountainArray(int[] A) {
+         int low = 0, high = A.length - 1;
+         while( low < high ) {
+             int mid = (low + high) / 2;
+             if( A[mid - 1] < A[mid] && A[mid] > A[mid + 1] )
+                 return mid;
+             else if( A[mid - 1] < A[mid] && A[mid] < A[mid + 1] )
+                 low = mid;
+             else if( A[mid - 1] > A[mid] && A[mid] > A[mid + 1] )
+                 high = mid;
             else
-                hi = mi;
-        }
-        return lo;
-    }
+                return -1;
+         }
+         return low;
+     }
+
+
+
+    /**
+     * IDEA :
+     * Binary Search
+     *
+     * p.s. 剑指源码
+     *
+     */
+     public int peakIndexInMountainArray(int[] A) {
+         int low = 1, high = A.length - 2;
+         while( low <= high ) {
+             int mid = (low + high) / 2;
+             if( A[mid - 1] < A[mid] && A[mid] > A[mid + 1] )
+                 return mid;
+
+             if( A[mid - 1] < A[mid] )
+                 low = mid + 1;
+             else
+                 high = mid - 1;
+         }
+         return -1;
+     }
+
+
+    /**
+     * IDEA :
+     * Binary Search
+     *
+     * Most data efficient
+     */
+     public int peakIndexInMountainArray(int[] A) {
+         int lo = 0, hi = A.length - 1;
+         while (lo < hi) {
+             int mi = lo + (hi - lo) / 2;
+             if (A[mi] < A[mi + 1])
+                 lo = mi + 1;
+             else
+                 hi = mi;
+         }
+         return lo;
+     }
+
+
 
 
     // Question 853
