@@ -146,4 +146,77 @@ class Solution {
          minDiff = Math.min( first + minuteFlags.length - last, minDiff);
          return minDiff;
      }
+
+    // Question 540
+    /**
+     * IDEA 1:
+     *
+     * Use XOR
+     *
+     */
+     public int singleNonDuplicate( int[] nums ) {
+         int x = nums[0];
+         for( int i = 1; i < nums.length; ++i )
+             x =^ nums[i];
+         return x;
+     }
+
+
+
+    /**
+     * IDEA 2:
+     *
+     * Use Binary search
+     *
+     * Inspired by 剑指
+     * Ideally should be faster than above if a large amount is reached
+     *
+     */
+     public int singleNonDuplicate( int[] nums ) {
+         int front = 0, back = nums.length - 1;
+         if( back == 0 )
+             return nums[0];
+         if( nums[back] != nums[back - 1] )
+             return nums[back];
+         back /= 2;
+         while( front <= back ) {
+             int mid = (front + back) / 2;
+             if( mid == 0 )
+                 return nums[0];
+             if( nums[mid * 2] != nums[mid * 2 + 1] ) {
+                 if( nums[mid * 2] != nums[mid * 2 - 1] )
+                     return nums[mid * 2];
+                 back = mid;
+             }
+             else
+                 front = mid;
+         }
+         return -1;
+     }
+
+    /**
+     * IDEA 3:
+     *
+     * Use Binary search
+     *
+     * p.s. 剑指源码
+     *
+     */
+     public int singleNonDuplicate( int[] nums ) {
+         int front = 0, back = nums.length / 2;
+         while( front <= back ) {
+             int mid = ( front + back ) / 2;
+             int i = mid * 2;
+             if( i < nums.length - 1 && nums[i] != nums[i + 1] ) {
+                 if( mid == 0 || nums[i - 2] == nums[i - 1]) {
+                     return nums[i];
+                 }
+                 right = mid - 1;
+             } else
+                 left = mid + 1;
+         }
+         return nums[nums.length - 1];
+     }
+
+
 }
