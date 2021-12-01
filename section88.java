@@ -36,7 +36,7 @@ class Solution {
 
 
          // calculate the ceiling... a faster approach 剑指源码
-         
+
          // int hours = 0;
          // for( int pile: piles ) {
          //     hours += (pile + speed - 1) / speed;
