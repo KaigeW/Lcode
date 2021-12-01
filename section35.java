@@ -27,4 +27,36 @@ class Solution {
              }
          }
      }
+
+    // Question 347
+    /**
+     * unlock required
+     *
+     * similar to 剑指源码
+     */
+     public int[] topKFrequent(int[] nums, int k) {
+         Map<Integer, Integer> numToCount = new HashMap<>();
+         for( int num: nums ) {
+             numToCount.put(num, numToCount.getOrDefault(num, 0) + 1);
+         }
+
+         Queue<Map.Entry<Integer, Integer>> minHeap = new PriorityQueue<>(
+           (e1, e2) -> e1.getValue() - e2.getValue());
+
+         for( Map.Entry<Integer, Integer> entry: numToCount.entrySet()) {
+             if( minHeap.size() < k )
+                 minHeap.offer(entry);
+             else {
+                 if( entry.getValue() > minHeap.peek().getValue() ) {
+                     minHeap.poll();
+                     minHeap.offer(entry);
+                 }
+             }
+         }
+         int[] result = new int[minHeap.size()];
+         int i = 0;
+         for(Map.Entry<Integer, Integer> entry: minHeap)
+             result[i++] = entry.getKey();
+         return result;
+     }
 }

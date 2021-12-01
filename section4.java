@@ -1,26 +1,50 @@
 class Solution {
 
-    // 
+    // Question 35
     /**
-     *
+     * IDEA: division method
      */
-    public String multiply(String num1, String num2) {
-        int m = num1.length(), n = num2.length();
-        int[] pos = new int[m + n];
+     public int searchInsert(int[] nums, int target) {
+         int front = 0, back = nums.length - 1;
+         if( back == -1 )
+             return -1;
+         int mid;
+         while( front < back ) {
+             mid = ( front + back ) / 2;
+             if( target < nums[mid] )
+                 back = mid - 1;
+             else if( target == nums[mid])
+                 return mid;
+             else
+                 front = mid + 1;
+         }
+         if( target <= nums[front] )
+             return front;
+         return front + 1;
+     }
 
-        for(int i = m - 1; i >= 0; i--) {
-            for(int j = n - 1; j >= 0; j--) {
-                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
-                int p1 = i + j, p2 = i + j + 1;
-                int sum = mul + pos[p2];
+     /**
+      * IDEA: division method
+      *
+      * p.s. 剑指源码
+      *
+      */
 
-                pos[p1] += sum / 10;
-                pos[p2] = (sum) % 10;
-            }
-        }
+      public int searchInsert(int[] nums, int target) {
+          int left = 0;
+          int right = nums.length - 1;
+          while( left <= right ) {
+              int mid = (left + right) / 2;
+              if( nums[mid] >= target ) {
+                  if( mid == 0 || nums[mid - 1] < target ) {
+                      return mid;
+                  }
+                  right = mid - 1;
+              } else {
+                  left = mid + 1;
+              }
+          }
+          return nums.length;
+      }
 
-        StringBuilder sb = new StringBuilder();
-        for(int p : pos) if(!(sb.length() == 0 && p == 0)) sb.append(p);
-        return sb.length() == 0 ? "0" : sb.toString();
-    }
 }

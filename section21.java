@@ -124,4 +124,57 @@ class Solution {
          return prev;
      }
 
+
+
+    // Question 208
+    /**
+     * IDEA 1:
+     *  Inspired by 剑指，the implementation of the TrieNode
+     */
+     static class Trie {
+         static class TrieNode {
+             TrieNode children[];
+             boolean isWord;
+
+             public TrieNode() {
+                 children = new TrieNode[26];
+             }
+         }
+
+         private TrieNode root;
+
+         public Trie() {
+             root = new TrieNode();
+         }
+
+         public void insert(String word) {
+             TrieNode temp = root;
+             for( char cha: word.toCharArray() ) {
+                 if( temp.children[cha - 'a'] == null )
+                     temp.children[cha - 'a'] = new TrieNode();
+                 temp = temp.children[cha - 'a'];
+             }
+             temp.isWord = true;
+         }
+
+         public boolean search(String word) {
+             TrieNode temp = root;
+             for( char cha: word.toCharArray() ) {
+                 if( temp.children[cha - 'a'] == null )
+                     return false;
+                 temp = temp.children[cha - 'a'];
+             }
+             return temp.isWord;
+         }
+
+         public boolean startsWith(String prefix) {
+             TrieNode temp = root;
+             for( char cha: prefix.toCharArray() ) {
+                 if( temp.children[cha - 'a'] == null )
+                     return false;
+                 temp = temp.children[cha - 'a'];
+             }
+             return true;
+         }
+     }
 }

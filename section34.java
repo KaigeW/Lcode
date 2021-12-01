@@ -25,11 +25,12 @@ class Solution {
 
     /**
      * IDEA 2:
-     * Another way to count the zeros, use i & i - 1
+     * Another way to count the 1s, use i & i - 1
+     * ( i always has one more 1 comparing to i & i - 1 )
      * e.g.
      *     i = 1100,   i - 1 = 1011; i & i - 1 --> 1000, it canceled out a '1'
      *     i = 1000,   i - 1 = 0111; i & i - 1 --> 0000, it canceled out Another
-     *                      and became a 0!
+     *                     1 and became a 0!
      * O(kn)
      * ps. 剑指源码
      */
@@ -48,7 +49,7 @@ class Solution {
     /**
      * IDEA 3:
      * Based on the previous experience, we know that
-     * Integer i is has 1 more binary digit than i & (i - 1)
+     * Integer i is has one more 1 than i & (i - 1)
      * Therefore
      * ps. 剑指源码
      * O(n)
