@@ -13,7 +13,7 @@ class Solution {
      }
 
      /**
-      *  IDEA :
+      *  IDEA 2:
       *
       *  Couldn't beat Arrays helper function, above, but still good to know
       *
@@ -36,6 +36,56 @@ class Solution {
           }
           return minHeap.peek();
       }
+
+    /**
+     *  IDEA 3:
+     *
+     *  Use quick sort, use the pivot solution to solve.
+     *  if pivot is chosen bigger than n-k, then the value k would be inside of
+     *     left side of the array.
+     *
+     *  faster, less memory
+     *
+     **/
+     public int findKthLargest( int[] nums, int k ) {
+         // kth largest
+         int target = nums.length - k;
+         int start = 0;
+         int end = nums.length - 1;
+         int index = partition( nums, start, end );
+         while( index != target ) {
+             if( index < target ) {
+                 start = index + 1;
+             } else {
+                 end = index - 1;
+             }
+             index = partition( nums, start, end );
+         }
+         return nums[target];
+     }
+
+     private int partition( int[] nums, int start, int end ) {
+         int pivot = new Random().nextInt(end - start + 1) + start;
+         swap( nums, pivot, end );
+         int p1 = start - 1;
+         for( int i = start; i < end; ++i ) {
+             if( nums[i] < nums[end] ) {
+                 p1++;
+                 swap(nums, i, p1);
+             }
+         }
+
+         p1++;
+         swap(nums, p1, end);
+
+         return p1;
+     }
+
+     private void swap( int[] nums, int i1, int i2 ) {
+         int temp = nums[i1];
+         nums[i1] = nums[i2];
+         nums[i2] = temp;
+     }
 
 
     // Question 219
