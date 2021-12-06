@@ -1,5 +1,102 @@
 class Solution {
 
+    // Question 23
+    /**
+     * IDEA :
+     * Use minimum heap to get the minimum from these lists
+     *
+     * Inspired by 剑指
+     *
+     */
+     public ListNode mergeKLists( ListNode[] lists ) {
+         ListNode result = new ListNode();
+         ListNode pt = result;
+         PriorityQueue<ListNode> minHeap = new PriorityQueue<>( (n1, n2)
+           -> n1.val - n2.val );
+         for( ListNode node: lists ){
+             if( node != null )
+                 minHeap.offer(node);
+         }
+
+         while( !minHeap.isEmpty() ) {
+             ListNode temp = minHeap.poll();
+             if( temp.next != null )
+                 minHeap.offer(temp.next);
+             pt.next = temp;
+             pt = pt.next;
+         }
+         return result.next;
+     }
+
+
+    /**
+     * IDEA 2:
+     * Use mergeSort
+     *
+     */
+     public ListNode mergeKLists( ListNode[] lists ) {
+         if( lists.length == 0 )
+             return null;
+         return mergeKLists( lists, 0, lists.length - 1 );
+     }
+
+     public ListNode mergeKLists( ListNode[] lists, int start, int end ) {
+         if( start == end )
+             return lists[start];
+
+         ListNode firstList = mergeKLists(lists, start, (start + end) / 2);
+         ListNode secondList = mergeKLists(lists, (start + end) / 2 + 1, end );
+
+         return mergeList(firstList, secondList);
+     }
+
+     private ListNode mergeList( ListNode firstList, ListNode secondList ) {
+         ListNode returnList = new ListNode();
+         ListNode pt = returnList;
+
+         while( firstList != null && secondList != null ) {
+             if( firstList.val > secondList.val ) {
+                 pt.next = secondList;
+                 secondList = secondList.next;
+             } else {
+                 pt.next = firstList;
+                 firstList = firstList.next;
+             }
+             pt = pt.next;
+         }
+
+         if( firstList == null ) {
+             pt.next = secondList;
+         } else {
+             pt.next = firstList;
+         }
+
+         return returnList.next;
+     }
+
+    /**
+     * IDEA 3:
+     * Use mergeSort
+     *
+     * p.s. 剑指源码
+     *
+     */
+     public ListNode mergeKLists( ListNode[] lists ) {
+         if( lists.length == 0 ) 
+             return null;
+         return mergeLists( lists, 0, lists.length );
+     }
+
+     private ListNode mergeLists( ListNode[] lists, int start, int end ) {
+         if( start + 1 == end )
+             return lists[start];
+         int mid = ( start + end ) / 2;
+         ListNode head1 = mergeLists( lists, start, mid );
+         ListNode head2 = mergeLists( lists, mid, end );
+         return mergeList( head1, head2 );
+     }
+
+
     // Question 26
     /**
      * IDEA :
