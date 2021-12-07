@@ -47,4 +47,34 @@ class Solution {
           return nums.length;
       }
 
+
+
+     // Question 39
+     /**
+      * IDEA: backtracking approach
+      */
+
+      public List<List<Integer>> combinationSum( int[] nums, int target ) {
+          List<List<Integer>> result = new LinkedList<>();
+          LinkedList<Integer> combination = new LinkedList<>();
+
+          helper(nums, target, 0, combination, result);
+
+          return result;
+      }
+
+      public void helper( int[] nums, int target, int i,
+        LinkedList<Integer> combination, List<List<Integer>> result ) {
+          if( target == 0 )
+              result.add(new LinkedList<>(combination));
+          else if (target > 0 && i < nums.length ) {
+              helper( nums, target, i + 1, combination, result );
+
+              combination.add(nums[i]);
+              helper( nums, target - nums[i], i, combination, result );
+
+              combination.removeLast();
+          }
+      }
+
 }
