@@ -77,4 +77,40 @@ class Solution {
           }
       }
 
+     // Question 40
+     /**
+      * IDEA: backtracking approach
+      */
+      public List<List<Integer>> combinationSum2( int[] nums, int target ) {
+          Arrays.sort(nums);
+
+          List<List<Integer>> result = new LinkedList<>();
+          LinkedList<Integer> combination = new LinkedList<>();
+
+          helper( nums, target, 0, combination, result );
+          return result;
+      }
+
+      private void helper( int[] nums, int target, int i,
+        LinkedList<Integer> combination, List<List<Integer>> result ) {
+          if( target == 0 )
+              result.add( new LinkedList<>(combination) );
+          else if( target > 0 && i < nums.length ) {
+              helper( nums, target, getNext(nums, i), combination, result );
+              combination.add(nums[i]);
+              helper( nums, target - nums[i], i + 1, combination, result );
+
+              combination.removeLast();
+          }
+      }
+
+      private int getNext( int[] nums, int index ) {
+          int next = index;
+          while( next < nums.length && nums[next] == nums[index] )
+              ++next;
+          return next;
+      }
+
+
+
 }
