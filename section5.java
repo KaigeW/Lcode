@@ -25,6 +25,47 @@ class Solution {
      }
 
 
+
+    // Question 46
+    /**
+     * IDEA 1:
+     *
+     * Permutation using backtracking
+     */
+
+     public List<List<Integer>> permute( int[] nums ) {
+         List<List<Integer>> result = new LinkedList<>();
+         helper( result, 0, nums);
+
+         return result;
+     }
+
+     public void helper( List<List<Integer>> result, int i,
+       int[] nums ) {
+         if( i == nums.length ) {
+             List<Integer> permutation = new LinkedList<>();
+             for( int num: nums ) {
+                 permutation.add(num);
+             }
+
+             result.add(permutation);
+         } else {
+             for( int j = i; j < nums.length; ++j ) {
+                 swap(nums, i, j);
+                 helper(result, i + 1, nums);
+                 swap(nums, i, j);
+             }
+         }
+     }
+
+     private void swap( int[] nums, int i, int j ) {
+         if( i != j ) {
+             int temp = nums[i];
+             nums[i] = nums[j];
+             nums[j] = temp;
+         }
+     }
+
     // Question 49
     /**
      * IDEA 1:
