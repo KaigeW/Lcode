@@ -1,5 +1,38 @@
 class Solution {
 
+    // Question 22
+    /**
+     * IDEA :
+     * BackTracking to Generate
+     */
+
+     public List<String> generateParenthesis( int n ) {
+         List<String> result = new LinkedList<>();
+         StringBuilder sb = new StringBuilder();
+         helper( n, n, result, sb);
+
+         return result;
+     }
+
+     private void helper( int left, int right, List<String> result, StringBuilder sb) {
+         if( left == 0 && right == 0 ) {
+             result.add(sb.toString());
+         } else if( left <= right ) {
+             if( left > 0 ) {
+                 sb.append('(');
+                 helper( left - 1, right, result, sb);
+                 sb.deleteCharAt(sb.size() - 1);
+             }
+
+             if( right > 0 ) {
+                 sb.append(')');
+                 helper( left, right - 1, result, sb);
+                 sb.deleteCharAt(sb.size() - 1);
+             }
+         }
+     }
+
+
     // Question 23
     /**
      * IDEA :
@@ -82,7 +115,7 @@ class Solution {
      *
      */
      public ListNode mergeKLists( ListNode[] lists ) {
-         if( lists.length == 0 ) 
+         if( lists.length == 0 )
              return null;
          return mergeLists( lists, 0, lists.length );
      }
