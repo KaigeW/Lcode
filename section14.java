@@ -1,5 +1,46 @@
 class Solution {
 
+    // Question 131
+    /**
+     * IDEA 1:
+     * Use Backtracking
+     *
+     * p.s. 剑指源码
+     *
+     */
+     public List<List<String>> partition( String s ) {
+         List<List<String>> result = new LinkedList<>();
+         helper( result, 0, new LinkedList<String>(), s );
+
+         return result;
+     }
+
+     public void helper( List<List<String>> result, int start,
+       LinkedList<String> temp, String s) {
+         if( start == s.length() ) {
+             result.add(new LinkedList<>( temp ));
+         } else {
+             for( int i = start; i < str.length(); ++i ) {
+                 if( isPalindrome(s, start, i)) {
+                     temp.add(s.substring(start, i + 1));
+                     helper( result, i + 1, temp, s );
+                     temp.removeLast();
+                 }
+             }
+         }
+     }
+
+     private boolean isPalindrome( String str, int start, int end ) {
+         while( start < end ) {
+             if( str.charAt( start++ ) != str.charAt(end--) ) {
+                 return false;
+             }
+         }
+         return true;
+     }
+
+
+
     // Question 136
     /**
      * IDEA 1:
