@@ -1,5 +1,77 @@
 class Solution {
 
+    // Question 213
+    /**
+     *  IDEA 1:
+     *  dynamic programming
+     *
+     * Inspired by 剑指
+     *
+     **/
+     public int rob( int[] nums ) {
+         int len = nums.length;
+         int[] dp = new int[len - 1];
+         int[] dp2 = new int[len - 1];
+
+         if( len == 0 )
+             return 0;
+         if( len == 1 )
+             return nums[0];
+         if( len == 2 )
+             return Math.max( nums[0], nums[1] );
+         dp[0] = nums[0];
+         if( len > 2 ) {
+             dp[1] = Math.max( nums[0], nums[1] );
+             dp2[0] = nums[1];
+         }
+         if( len > 2 )
+             dp2[1] = Math.max( nums[1], nums[2] );
+
+         for( int i = 2; i < len - 1; ++i ) {
+             dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+             dp2[i] = Math.max(dp2[i - 2] + nums[i + 1], dp2[i - 1]);
+         }
+
+         return Math.max(dp[len - 2], dp2[len - 2]);
+     }
+
+    /**
+     *  IDEA 2:
+     *  dynamic programming
+     *
+     * p.s. 剑指源码
+     *
+     **/
+     public int rob( int[] nums ) {
+         if( nums.length == 0 ) {
+             return 0;
+         }
+
+         if( nums.length == 1 ) {
+             return nums[0];
+         }
+
+         int result1 = helper( nums, 0, nums.length - 2 );
+         int result2 = helper( nums, 1, nums.length - 1 );
+         return Math.max( result1, result2 );
+     }
+
+     private int helper( int[] nums, int start, int end ) {
+         int[] dp = new int[2];
+         dp[0] = nums[start];
+
+         if( start < end ){
+             dp[1] = Math.max(nums[start], nums[start + 1]);
+         }
+
+         for( int i = start + 2; i <= end; ++i ) {
+             int j = i - start;
+             dp[j % 2] = Math.max(dp[(j - 1) % 2 ], dp[(j - 2) % 2] + nums[i]);
+         }
+
+         return dp[(end - start) % 2];
+     }
+
     // Question 215
     /**
      *  IDEA 1:
