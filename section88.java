@@ -1,5 +1,35 @@
 class Solution {
 
+    // Question 873
+    /**
+     * IDEA:
+     * Use dynamic
+     *
+     * p.s. 剑指源码
+     *
+     */
+     public int lenLongestFibSubseq(int[] A) {
+         Map<Integer, Integer> hash = new HashMap<>();
+         for( int i = 0; i < A.length; ++i ) {
+             hash.put(A[i], i);
+         }
+
+         int[][] dp = new int[A.length][A.length];
+         int result = 2;
+
+         for( int i = 1; i < A.length; ++i ) {
+             for( int j = 0; j < i; j++ ) {
+                 int k = hash.getOrDefault( A[i] - A[j], -1 );
+                 dp[i][j] = k >= 0 && k < j? dp[j][k] + 1: 2;
+
+                 result = Math.max(result, dp[i][j]);
+             }
+         }
+
+         return result > 2? result: 0;
+
+     }
+
     // Question 875
     /**
      * IDEA:
@@ -32,7 +62,7 @@ class Solution {
          for( int temp: piles ) {
              hours += temp % mid != 0? 1 + temp / mid: temp / mid;
          }
-         return hours;
+         return )hours;
 
 
          // calculate the ceiling... a faster approach 剑指源码
