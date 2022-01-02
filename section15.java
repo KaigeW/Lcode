@@ -210,6 +210,117 @@ class Solution {
          }
      }
 
+    // Question 148
+    /**
+     * IDEA 1:
+     * Use mergeSort to sort to linkedList
+     *
+     * inspired by 剑指
+     */
+     public ListNode sortList( ListNode head ) {
+
+         if( head == null || head.next == null )
+             return head;
+
+         ListNode head1, head2;
+
+         head1 = head;
+         head2 = halfHead(head);
+
+         head1 = sortList(head1);
+         head2 = sortList(head2);
+
+         return mergeSort( head1, head2 );
+     }
+
+     private ListNode halfHead( ListNode head ) {
+         ListNode newHead = new ListNode();
+         newHead.next = head;
+         ListNode pt1 = newHead;
+         ListNode pt2 = newHead;
+
+         while( pt2 != null && pt2.next != null ) {
+             pt1 = pt1.next;
+             pt2 = pt2.next;
+             pt2 = pt2.next;
+         }
+
+         newHead = pt1.next;
+         pt1.next = null;
+         return newHead;
+     }
+
+     private ListNode mergeSort( ListNode head1, ListNode head2 ) {
+         ListNode newHead = new ListNode();
+         ListNode pt = newHead;
+         ListNode pt1 = head1, pt2 = head2;
+         while( pt1 != null && pt2 != null ) {
+             if( pt1.val < pt2.val ) {
+                 newHead.next = pt1;
+                 pt1 = pt1.next;
+             } else {
+                 newHead.next = pt2;
+                 pt2 = pt2.next;
+             }
+             newHead = newHead.next;
+         }
+         if( pt1 == null )
+             newHead.next = pt2;
+         else
+             newHead.next = pt1;
+         return pt.next;
+     }
+
+    /**
+     * IDEA 2:
+     *
+     * p.s. 剑指源码
+     *
+     */
+     public ListNode sortList( ListNode head ) {
+         if( head == null || head.next == null ) {
+             return head;
+         }
+
+         ListNode head1 = head;
+         ListNode head2 = split( head );
+
+         head1 = sortList(head1);
+         head2 = sortList(head2);
+
+         return merge( head1, head2 );
+     }
+
+     private ListNode split( ListNode head ) {
+         ListNode slow = head;
+         ListNode fast = head.next;
+         while( fast != null && fast.next != null ) {
+             slow = slow.next;
+             fast = fast.next.next;
+         }
+         ListNode second = slow.next;
+         slow.next = null;
+
+         return second;
+     }
+
+     private ListNode merge( ListNode head1, ListNode head2 ) {
+         ListNode dummy = new ListNode(0);
+         ListNode cur = dummy;
+         while( head1 != null && head2 != null ) {
+             if( head1.val < head2.val ) {
+                 cur.next = head1;
+                 head1 = head1.next;
+             } else {
+                 cur.next = head2;
+                 head2 = head2.next;
+             }
+
+             cur = cur.next;
+         }
+         cur.next = head1 == null? head2 : head1;
+         return dummy.next;
+     }
 
     // Question 150
     /**

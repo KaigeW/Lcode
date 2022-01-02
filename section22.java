@@ -1,5 +1,77 @@
 class Solution {
 
+    // Question 213
+    /**
+     *  IDEA 1:
+     *  dynamic programming
+     *
+     * Inspired by 剑指
+     *
+     **/
+     public int rob( int[] nums ) {
+         int len = nums.length;
+         int[] dp = new int[len - 1];
+         int[] dp2 = new int[len - 1];
+
+         if( len == 0 )
+             return 0;
+         if( len == 1 )
+             return nums[0];
+         if( len == 2 )
+             return Math.max( nums[0], nums[1] );
+         dp[0] = nums[0];
+         if( len > 2 ) {
+             dp[1] = Math.max( nums[0], nums[1] );
+             dp2[0] = nums[1];
+         }
+         if( len > 2 )
+             dp2[1] = Math.max( nums[1], nums[2] );
+
+         for( int i = 2; i < len - 1; ++i ) {
+             dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+             dp2[i] = Math.max(dp2[i - 2] + nums[i + 1], dp2[i - 1]);
+         }
+
+         return Math.max(dp[len - 2], dp2[len - 2]);
+     }
+
+    /**
+     *  IDEA 2:
+     *  dynamic programming
+     *
+     * p.s. 剑指源码
+     *
+     **/
+     public int rob( int[] nums ) {
+         if( nums.length == 0 ) {
+             return 0;
+         }
+
+         if( nums.length == 1 ) {
+             return nums[0];
+         }
+
+         int result1 = helper( nums, 0, nums.length - 2 );
+         int result2 = helper( nums, 1, nums.length - 1 );
+         return Math.max( result1, result2 );
+     }
+
+     private int helper( int[] nums, int start, int end ) {
+         int[] dp = new int[2];
+         dp[0] = nums[start];
+
+         if( start < end ){
+             dp[1] = Math.max(nums[start], nums[start + 1]);
+         }
+
+         for( int i = start + 2; i <= end; ++i ) {
+             int j = i - start;
+             dp[j % 2] = Math.max(dp[(j - 1) % 2 ], dp[(j - 2) % 2] + nums[i]);
+         }
+
+         return dp[(end - start) % 2];
+     }
+
     // Question 215
     /**
      *  IDEA 1:
@@ -13,7 +85,7 @@ class Solution {
      }
 
      /**
-      *  IDEA :
+      *  IDEA 2:
       *
       *  Couldn't beat Arrays helper function, above, but still good to know
       *
@@ -36,6 +108,56 @@ class Solution {
           }
           return minHeap.peek();
       }
+
+    /**
+     *  IDEA 3:
+     *
+     *  Use quick sort, use the pivot solution to solve.
+     *  if pivot is chosen bigger than n-k, then the value k would be inside of
+     *     left side of the array.
+     *
+     *  faster, less memory
+     *
+     **/
+     public int findKthLargest( int[] nums, int k ) {
+         // kth largest
+         int target = nums.length - k;
+         int start = 0;
+         int end = nums.length - 1;
+         int index = partition( nums, start, end );
+         while( index != target ) {
+             if( index < target ) {
+                 start = index + 1;
+             } else {
+                 end = index - 1;
+             }
+             index = partition( nums, start, end );
+         }
+         return nums[target];
+     }
+
+     private int partition( int[] nums, int start, int end ) {
+         int pivot = new Random().nextInt(end - start + 1) + start;
+         swap( nums, pivot, end );
+         int p1 = start - 1;
+         for( int i = start; i < end; ++i ) {
+             if( nums[i] < nums[end] ) {
+                 p1++;
+                 swap(nums, i, p1);
+             }
+         }
+
+         p1++;
+         swap(nums, p1, end);
+
+         return p1;
+     }
+
+     private void swap( int[] nums, int i1, int i2 ) {
+         int temp = nums[i1];
+         nums[i1] = nums[i2];
+         nums[i2] = temp;
+     }
 
 
     // Question 219

@@ -1,5 +1,85 @@
 class Solution {
 
+    // Question 131
+    /**
+     * IDEA 1:
+     * Use Backtracking
+     *
+     * p.s. 剑指源码
+     *
+     */
+     public List<List<String>> partition( String s ) {
+         List<List<String>> result = new LinkedList<>();
+         helper( result, 0, new LinkedList<String>(), s );
+
+         return result;
+     }
+
+     public void helper( List<List<String>> result, int start,
+       LinkedList<String> temp, String s) {
+         if( start == s.length() ) {
+             result.add(new LinkedList<>( temp ));
+         } else {
+             for( int i = start; i < str.length(); ++i ) {
+                 if( isPalindrome(s, start, i)) {
+                     temp.add(s.substring(start, i + 1));
+                     helper( result, i + 1, temp, s );
+                     temp.removeLast();
+                 }
+             }
+         }
+     }
+
+     private boolean isPalindrome( String str, int start, int end ) {
+         while( start < end ) {
+             if( str.charAt( start++ ) != str.charAt(end--) ) {
+                 return false;
+             }
+         }
+         return true;
+     }
+
+
+
+    // Question 132
+    /**
+     * IDEA 1:
+     * Dynamic programming
+     *
+     * p.s. 剑指源码
+     *
+     */
+
+     public int minCut( String s ) {
+         int len = s.length();
+         boolean[][] isPal = new boolean[len][len];
+
+         for( int i = 0; i < len; i++ ) {
+             for( int j = 0; j <= i; ++j ) {
+                 char ch1 = s.charAt(i);
+                 char ch2 = s.charAt(j);
+                 if( ch1 == ch2  && (i <= j + 1 || isPal[j + 1][i - 1]))
+                     isPal[j][i] = true;
+             }
+         }
+
+         int[] dp = new int[len];
+         for( int i = 0; i < len; ++i ) {
+             if( isPal[0][i] )
+                 dp[i] = 0;
+             else {
+                 dp[i] = i;
+                 for( int j = 1; j <= i; j++ ) {
+                     if( isPal[j][i]) {
+                         dp[i] = Math.min(dp[i], dp[j - 1] + 1);
+                     }
+                 }
+             }
+         }
+         return dp[len - 1];
+     }
+
+
     // Question 136
     /**
      * IDEA 1:

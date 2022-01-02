@@ -75,6 +75,38 @@ class Solution {
 
 
 
+    // question 115
+    /**
+     *  IDEA 1:
+     *  Dynamic programming double list TODO
+     *
+     *  p.s 剑指源码
+     *
+     **/
+     public int numDistinct( String s, String t ) {
+         int[][] dp =new int[s.length() + 1][t.length() + 1];
+         dp[0][0] = 1;
+
+         for( int i = 0; i < s.length(); ++i ) {
+             dp[i + 1][0] = 1;
+             for( int j = 0; j <= i && j < t.length(); ++j ) {
+                 if( s.charAt(i) == t.charAt(j) ) {
+                     dp[i + 1][j + 1] = dp[i][j] + dp[i][j + 1];
+                 } else {
+                     dp[i + 1][j + 1] = dp[i][j + 1];
+                 }
+             }
+         }
+
+         return dp[s.length()][t.length()];
+     }
+
+
+
+
+
+
+
     // question 118?
     /**
      *  IDEA 1:

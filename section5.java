@@ -25,6 +25,88 @@ class Solution {
      }
 
 
+
+    // Question 46
+    /**
+     * IDEA 1:
+     *
+     * Permutation using backtracking
+     */
+
+     public List<List<Integer>> permute( int[] nums ) {
+         List<List<Integer>> result = new LinkedList<>();
+         helper( result, 0, nums);
+
+         return result;
+     }
+
+     public void helper( List<List<Integer>> result, int i,
+       int[] nums ) {
+         if( i == nums.length ) {
+             List<Integer> permutation = new LinkedList<>();
+             for( int num: nums ) {
+                 permutation.add(num);
+             }
+
+             result.add(permutation);
+         } else {
+             for( int j = i; j < nums.length; ++j ) {
+                 swap(nums, i, j);
+                 helper(result, i + 1, nums);
+                 swap(nums, i, j);
+             }
+         }
+     }
+
+     private void swap( int[] nums, int i, int j ) {
+         if( i != j ) {
+             int temp = nums[i];
+             nums[i] = nums[j];
+             nums[j] = temp;
+         }
+     }
+
+
+    // Question 47
+    /**
+     * IDEA 1:
+     *
+     * Permutation using backtracking
+     */
+     public List<List<Integer>> permuteUnique( int[] nums ) {
+         List<List<Integer>> result = new LinkedList<>();
+         helper( nums, 0, result );
+         return result;
+     }
+
+     public void helper( int[] nums, int i, List<List<Integer>> result ) {
+         if( i == nums.length ) {
+             List<Integer> perm = new LinkedList<>();
+             for( int num: nums )
+                 perm.add( num );
+             result.add(perm);
+         } else {
+             Set<Integer> set = new HashSet<>();
+             for( int j = i; j < nums.length; ++j ) {
+                 if( !set.contains(nums[j]) ) {
+                     set.add(nums[j]);
+                     
+                     swap(nums, i, j);
+                     helper(nums, i + 1, result);
+                     swap(nums, i, j);
+                 }
+             }
+         }
+     }
+
+     private void swap( int[] nums, int i, int j ) {
+         if( i != j ) {
+             int temp = nums[i];
+             nums[i] = nums[j];
+             nums[j] = temp;
+         }
+     }
+
     // Question 49
     /**
      * IDEA 1:
