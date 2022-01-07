@@ -2,9 +2,11 @@ class Solution {
 
     // Question 785
     /**
-     * IDEA:
+     * IDEA 1:
      *
      * Graph
+     *
+     * Breadth Search
      *
      * p.s. 剑指源码
      *
@@ -43,4 +45,30 @@ class Solution {
          }
          return true;
      }
+
+     /**
+      * IDEA 2:
+      *
+      * Graph
+      *
+      * Depth Search
+      *
+      * p.s. 剑指源码
+      *
+      * Faster might cause more memory consuming, due to recursive function
+      *
+      */
+      private boolean setColor( int[][] graph, int[] colors, int i, int color ) {
+          if( colors[i] >= 0 ) {
+              return colors[i] == color;
+          }
+
+          colors[i] = color;
+          for( int neighbor: graph[i] ) {
+              if( !setColor(graph, colors, neighbor, 1 - color) )
+                  return false;
+          }
+
+          return true;
+      }
 }
