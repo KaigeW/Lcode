@@ -2,7 +2,46 @@ class Solution {
 
     // Question 873
     /**
-     * IDEA:
+     * IDEA 1:
+     * Use a 2d array to avoid duplicates
+     *
+     * 2 index can set a possible fibo combination
+     *
+     */
+
+     public int lenLongestFibSubseq( int[] A ) {
+         Map<Integer, Integer> set = new HashMap<>();
+         boolean[][] checked = new boolean[A.length][A.length];
+
+         for( int i = 0; i < A.length; ++i )
+             set.put(A[i], i);
+
+         int longest = 0;
+         for( int i = 0; i < A.length - 2; ++i ) {
+             for( int j = i + 1; j < A.length - 1; ++j ) {
+                 if( !checked[i][j] ) {
+                     int temp = 2;
+                     int a = i;
+                     int b = j;
+                     checked[a][b] = true;
+                     int sum = A[a] + A[b];
+                     while( set.containsKey(sum) ) {
+                         a = b;
+                         b = (int) set.get(sum);
+                         checked[a][b] = true;
+                         temp++;
+                         sum = A[a] + A[b];
+                     }
+                     if( temp > 2 )
+                         longest = Math.max(longest, temp);
+                  }
+              }
+         }
+         return longest;
+     }
+
+    /**
+     * IDEA 2:
      * Use dynamic
      *
      * p.s. 剑指源码
