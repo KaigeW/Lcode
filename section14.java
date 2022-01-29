@@ -71,6 +71,10 @@ class Solution {
                  dp[i] = i;
                  for( int j = 1; j <= i; j++ ) {
                      if( isPal[j][i]) {
+                         // 若string本身不是一个回文，
+                         // 我们查所有从j(1-->i)开始到i的substring中是否是回文
+                         // 最糟糕情况 就是 dp中前一个index的值加上 1
+                         //
                          dp[i] = Math.min(dp[i], dp[j - 1] + 1);
                      }
                  }
