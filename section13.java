@@ -1,5 +1,30 @@
 class Solution {
 
+    // Question 121
+    /**
+     * IDEA:
+     * Everytime you see a lower point, we need to reset the higher point value
+     *
+     */
+
+     public int maxProfit(int[] prices) {
+         int profit = 0;
+         int small = 10000;
+         int max = 0;
+
+         for( int z: prices ) {
+             if( small > z ) {
+                 small = z;
+                 max = 0;
+             } else if( max < z ) {
+                 max = z;
+                 if( profit < (max - small) )
+                     profit = max - small;
+             }
+         }
+         return profit;
+     }
+
     // Question 124
     /**
      * IDEA:
