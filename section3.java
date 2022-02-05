@@ -100,6 +100,9 @@ class Solution {
      public ListNode mergeKLists( ListNode[] lists, int start, int end ) {
          if( start == end )
              return lists[start];
+         if( begin + 1 == end ) {
+             return mergeList(lists[begin], lists[end]);
+         }
 
          ListNode firstList = mergeKLists(lists, start, (start + end) / 2);
          ListNode secondList = mergeKLists(lists, (start + end) / 2 + 1, end );
