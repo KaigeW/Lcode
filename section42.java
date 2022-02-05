@@ -49,4 +49,47 @@ class Solution {
               sum += ans[i];
           return sum;
       }
+
+
+
+     // question 416
+     /**
+      *  IDEA 1:
+      *
+      *  TODO
+      *  Dynamic Programming
+      *
+      **/
+      public boolean canPartition( int[] nums ) {
+          int sum = 0;
+          for( int num: nums ) {
+              sum += num;
+          }
+
+          if( sum % 2 == 1 )
+              return false;
+
+          return subsetSum( nums, sum / 2 );
+      }
+
+      private boolean subsetSum( int[] nums, int target ) {
+          Boolean[][] dp = new Boolean[nums.length + 1][ target + 1 ];
+          return helper( nums, dp, nums.length, target );
+      }
+
+      private boolean helper( int[] nums, Boolean[][] dp, int i, int j) {
+          if( dp[i][j] == null ) {
+              if( j == 0 )
+                  dp[i][j] = true;
+              else if( i == 0 )
+                  dp[i][j] = false;
+              else {
+                  dp[i][j] = helper(nums, dp, i - 1, j);
+                  if( !dp[i][j] && j >= nums[i - 1]) {
+                      dp[i][j] = helper( nums, dp, i - 1, j - nums[i - 1]);
+                  }
+              }
+          }
+          return dp[i][j];
+      }
 }
