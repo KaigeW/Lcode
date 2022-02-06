@@ -122,4 +122,48 @@ class Solution {
              subset.removeLast();
          }
      }
+
+    // Question 80
+    /**
+     * IDEA:
+     * Once find the duplicate, find the next different piece,
+     *   right before the next iteration, make sure the value exists for twice
+     */
+     public int removeDuplicates(int[] nums) {
+         if( nums.length <= 2 )
+             return nums.length;
+         int possibleK = 0;
+         // for loop
+         for( int i = 0; i < nums.length; ++i ){
+             // check for the first appearance of duplication
+             if( i + 1 < nums.length && nums[i] == nums[i + 1] ) {
+                 // call function that returns the index that is not the duplicate, and start the loop from there
+                 nums[possibleK] = nums[i];
+                 ++possibleK;
+                 int index = i + 2;
+                 while( index < nums.length && nums[i] == nums[index] )
+                     index++;
+                 i = index - 1;
+             }
+             nums[possibleK] = nums[i];
+             ++possibleK;
+         }
+         return possibleK;
+     }
+
+     /**
+      * IDEA 1:
+      * Sliding window. Logically, inside of a loop, the current number has to be larger than the one before previous one
+      * e.g. 1,1,2,2,2,3,3,3,3,4
+      *      t t t t f t t f f t
+      *
+      * p.s. leetcode源码
+      */
+      public int findMaxLength(int[] nums) {
+          int i = 0;
+          for (int n : nums)
+              if (i < 2 || n > nums[i - 2])
+                  nums[i++] = n;
+          return i;
+      }
 }
