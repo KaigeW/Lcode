@@ -3,8 +3,6 @@ class Solution {
     // for Question 1510
     /**
      * TODO: Understand
-     *
-     *
      */
     public boolean winnerSquareGame(int n) {
         int[] dp = new int[n + 1];
