@@ -113,4 +113,41 @@ class Solution {
          }
      }
 
+    // Question 389
+    /**
+     * IDEA 1:
+     * Use a hashMap to store the appearing chars, after two loops, the char
+     * that holds a value is the result
+     *
+     */
+
+     public char findTheDifference(String s, String t) {
+         int[] chars = new int[26];
+         int i = 0;
+         for( ; i < s.length(); ++i ) {
+             chars[s.charAt(i) - 'a']--;
+             chars[t.charAt(i) - 'a']++;
+         }
+
+         chars[t.charAt(i) - 'a']++;
+         for( i = 0; i < 26; ++i ) {
+             if( chars[i] == 1 )
+                 return (char) ('a' + i );
+         }
+         return '-';
+     }
+
+    /**
+     * IDEA 2:
+     * Use XOR
+     *
+     */
+     public char findTheDifference(String s, String t) {
+         char ch = 0;
+         for( char c: s.toCharArray() ) ch ^= c;
+         for( char c: t.toCharArray() ) ch ^= c;
+         return ch;
+     }
+
+
 }
