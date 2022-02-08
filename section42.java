@@ -53,6 +53,45 @@ class Solution {
 
 
      // question 416
+
+     /**
+      * IDEA:
+      * backtracking, but result in exceeding time limit when having a large set
+      *
+      */
+      public boolean canPartition( int[] nums ) {
+          int sum = 0;
+          for( int num: nums ) {
+              sum += num;
+          }
+
+          if( sum % 2 == 1 )
+              return false;
+
+          List<List<Integer>> combine = new LinkedList<>();
+          helper( nums, combine, new LinkedList<Integer>(), sum / 2, 0);
+
+          if( !combine.isEmpty() ) {
+              for( List<Integer> list: combine )
+                  System.out.println(list.toString());
+              return true;
+          }
+          return false;
+      }
+
+      public void helper( int[] nums, List<List<Integer>> combine, LinkedList<Integer> list, int target, int index ) {
+          if( target == 0 )
+              combine.add(new LinkedList<>(list));
+          else if( index < nums.length ) {
+              helper( nums, combine, list, target, index + 1 );
+
+              list.add(nums[index]);
+              helper( nums, combine, list, target - nums[index], index + 1);
+              list.removeLast();
+          }
+      }
+
+
      /**
       *  IDEA 1:
       *
