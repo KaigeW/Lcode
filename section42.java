@@ -58,6 +58,8 @@ class Solution {
       * IDEA:
       * backtracking, but result in exceeding time limit when having a large set
       *
+      * brutal force
+      *
       */
       public boolean canPartition( int[] nums ) {
           int sum = 0;
@@ -98,6 +100,8 @@ class Solution {
       *  TODO
       *  Dynamic Programming
       *
+      * p.s. 剑指源码
+      *
       **/
       public boolean canPartition( int[] nums ) {
           int sum = 0;
@@ -131,4 +135,58 @@ class Solution {
           }
           return dp[i][j];
       }
+
+
+      /**
+       *  IDEA 2:
+       *
+       *  Dynamic Programming
+       *
+       *  p.s. leetcode bbs
+       *
+       **/
+       public boolean canPartition( int[] nums ) {
+           int sum = 0;
+           for( int num: nums ) {
+               sum += num;
+           }
+
+           // if the sum is odd, no need to go further
+           if( (sum & 1) == 1 )
+               return false;
+
+           int target = sum / 2;
+
+           boolean[][] dp = new boolean[nums.length + 1][target + 1];
+
+           // if the target is 0, it would always return true
+           for( int i = 0; i < nums.length + 1; ++i )
+               dp[i][0] = true;
+
+           // if the we didn't select number, it means the target will never be
+           //   reached. Because it would always be 0
+           for( int j = 1; j < target + 1; ++j )
+               dp[0][j] = false;
+
+
+           for( int i = 1; i < nums.length + 1; ++i ) {
+               for( int j = 1; j < target + 1; ++j ) {
+                   // if last number has an approach that reaches the target,
+                   //   we don't need to do anything then! (achieved by the
+                   //   following statement and left side of the or )
+                   dp[i][j] = dp[i - 1][j];
+
+                   // when the target is bigger than the current number
+                   //   we get the chance to add it into our set
+
+                   // second condition is needed when the previous number does
+                   //   not have an approach of that reaches the target
+                   if( j >= nums[i - 1] )
+                       dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]];
+               }
+           }
+
+           // in this case, any possible num combination will make this value true
+           return dp[nums.length][target];
+       }
 }
