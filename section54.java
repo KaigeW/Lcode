@@ -1,5 +1,26 @@
 class Solution {
 
+    // Question 532
+    /**
+     * IDEA:
+     * Inspired by leetcode bbs
+     *
+     */
+     public int findPairs(int[] nums, int k) {
+         Map<Integer, Integer> map = new HashMap<>();
+         for( int num: nums ) {
+             map.put( num, 1 + map.getOrDefault(num, 0));
+         }
+
+         int pairs = 0;
+         for( int num: map.keySet() ){
+             if( (k != 0 && map.containsKey(num + k) ) || (k == 0 && map.get(num) >= 2) )
+                 pairs++;
+         }
+         return pairs;
+     }
+
+
     // Question 538
     /**
      * IDEA 1:
